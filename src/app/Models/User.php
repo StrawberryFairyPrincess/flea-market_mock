@@ -41,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Userファクトリのルール
+    // public static $rules = array(
+    //     'name' => 'required|string|max:255',
+    //     'email' => 'required|email|string|max:255',
+    //     'password' => 'required|string|max:255',
+
+    // );
+
 }

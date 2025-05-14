@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+// ログイン済みの場合のみ表示
+Route::middleware('auth')->group(function () {
+
+    // 商品購入画面
+
+    // 送付先住所変更画面
+
+    // 商品出品画面
+
+    // プロフィール画面
+
+    // プロフィール編集画面(設定画面)
+
+
+
 });
+
+// 商品一覧画面(トップ画面)
+Route::get('/', [ItemController::class, 'index']);
+
+// 会員登録画面
+
+// ログイン画面
+
+// 商品詳細画面
+
+
