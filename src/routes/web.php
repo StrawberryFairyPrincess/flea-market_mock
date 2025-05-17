@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\RegisteredUserController;
 
 
 /*
@@ -25,12 +26,17 @@ Route::middleware('auth')->group(function () {
     // 送付先住所変更画面
 
     // 商品出品画面
+    Route::get('/sell', [ItemController::class, 'sell']);
 
-    // プロフィール画面
+    Route::prefix('/mypage')->group(function () {
 
-    // プロフィール編集画面(設定画面)
+        // マイページ(プロフィール画面)
+        Route::get('', [ItemController::class, 'mypage']);
 
+        // プロフィール編集画面(設定画面)
+        // Route::get('/profile', [ItemController::class, 'profile']);
 
+    });
 
 });
 
@@ -38,6 +44,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [ItemController::class, 'index']);
 
 // 会員登録画面
+// 登録後の遷移先を上書き
+// Route::post('/register',[RegisteredUserController::class,'store']);
 
 // ログイン画面
 

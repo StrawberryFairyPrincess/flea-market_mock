@@ -9,6 +9,9 @@ return [
     | The following language lines contain the default error messages used by
     | the validator class. Some of these rules have multiple versions such
     | as the size rules. Feel free to tweak each of these messages.
+    以下の言語行には、バリデータクラスで使用されるデフォルトのエラーメッセージが含まれています。
+    これらのルールの中には、サイズルールなど複数のバージョンを持つものもあります。
+    これらのメッセージは自由に調整してください。
     |
     */
 
@@ -29,7 +32,8 @@ return [
         'array'   => ':attributeの項目は、:min個から:max個にしてください。',
     ],
     'boolean'              => ":attributeには、'true'か'false'を指定してください。",
-    'confirmed'            => ':attributeと:attribute確認が一致しません。',
+    // 'confirmed'            => ':attributeと:attribute確認が一致しません。',
+    'confirmed'            => ':attributeと一致しません',
     'date'                 => ':attributeは、正しい日付ではありません。',
     'date_equals'          => ':attributeは:dateに等しい日付でなければなりません。',
     'date_format'          => ":attributeの形式は、':format'と合いません。",
@@ -86,7 +90,8 @@ return [
     'min'                  => [
         'numeric' => ':attributeには、:min以上の数字を指定してください。',
         'file'    => ':attributeには、:min KB以上のファイルを指定してください。',
-        'string'  => ':attributeは、:min文字以上にしてください。',
+        // 'string'  => ':attributeは、:min文字以上にしてください。',
+        'string'  => ':attributeは:min文字以上で入力してください',
         'array'   => ':attributeの項目は、:min個以上にしてください。',
     ],
     'multiple_of'          => 'The :attribute must be a multiple of :value',
@@ -96,7 +101,8 @@ return [
     'password'             => 'パスワードが正しくありません。',
     'present'              => ':attributeが存在している必要があります。',
     'regex'                => ':attributeには、有効な正規表現を指定してください。',
-    'required'             => ':attributeは、必ず指定してください。',
+    // 'required'             => ':attributeは、必ず指定してください。',
+    'required'             => ':attributeを入力してください',
     'required_if'          => ':otherが:valueの場合、:attributeを指定してください。',
     'required_unless'      => ':otherが:values以外の場合、:attributeを指定してください。',
     'required_with'        => ':valuesが指定されている場合、:attributeも指定してください。',
@@ -126,6 +132,9 @@ return [
     | Here you may specify custom validation messages for attributes using the
     | convention "attribute.rule" to name the lines. This makes it quick to
     | specify a specific custom language line for a given attribute rule.
+    ここでは、属性のカスタム検証メッセージを指定できます。
+    「attribute.rule」という命名規則を使用して行に名前を付けます。
+    これにより、特定の属性ルールに対して、特定のカスタム言語行を素早く指定できます。
     |
     */
 
@@ -143,8 +152,14 @@ return [
     | The following language lines are used to swap attribute place-holders
     | with something more reader friendly such as E-Mail Address instead
     | of "email". This simply helps us make messages a little cleaner.
+    以下の言語行は、属性のプレースホルダーを「email」ではなく「Eメールアドレス」など、
+    より読みやすいものに置き換えるために使用されます。これにより、メッセージが少し見やすくなります。
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'お名前',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+    ],
 ];

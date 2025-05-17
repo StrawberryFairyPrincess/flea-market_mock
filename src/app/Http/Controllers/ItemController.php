@@ -7,15 +7,27 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Destination;
 use App\Models\Condition;
-use App\Models\Comment;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\Sale;
 use App\Models\Purchase;
+use App\Models\Comment;
 
 
 class ItemController extends Controller
 {
+
+    // ヘッダーのリンク（マイページ(プロフィール画面)）
+    public function mypage()
+    {
+        return view('mypage');
+    }
+    // ヘッダーのリンク（出品）
+    public function sell()
+    {
+        return view('sell');
+    }
+
     public function index()
     {
 
@@ -27,7 +39,11 @@ class ItemController extends Controller
 
     }
 
+    // public function profile()
+    // {
+
+    //     return view('profile');
+    // }
 
 
-    
 }
