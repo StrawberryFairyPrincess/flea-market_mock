@@ -39,11 +39,11 @@ class ItemController extends Controller
 
     }
 
-    // public function profile()
-    // {
-
-    //     return view('profile');
-    // }
+    // プロフィール編集画面(設定画面)
+    public function profile()
+    {
+        return view('profile');
+    }
 
 
 }

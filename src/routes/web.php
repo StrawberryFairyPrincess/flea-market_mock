@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::get('', [ItemController::class, 'mypage']);
 
         // プロフィール編集画面(設定画面)
-        // Route::get('/profile', [ItemController::class, 'profile']);
+        Route::get('/profile', [ItemController::class, 'profile']);
 
     });
 
@@ -44,8 +44,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [ItemController::class, 'index']);
 
 // 会員登録画面
-// 登録後の遷移先を上書き
-// Route::post('/register',[RegisteredUserController::class,'store']);
 
 // ログイン画面
 

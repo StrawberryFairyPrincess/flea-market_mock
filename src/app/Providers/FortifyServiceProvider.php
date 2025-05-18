@@ -12,15 +12,26 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LogoutResponse;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use App\Http\Responses\RegisterResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     * アプリケーションの全サービスの登録
      */
     public function register(): void
     {
-        //
+        // ログアウト後の遷移先指定（ログインページ）
+        $this->app->instance(
+            LogoutResponse::class, new class implements LogoutResponse {
+                public function toResponse($request) {
+                    return redirect('/login');
+                }
+            }
+        );
     }
 
     /**
@@ -48,6 +59,8 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
+        // 新規会員登録後の遷移先を指定
+        $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
 
         // Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         // Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
