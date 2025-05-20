@@ -1,4 +1,10 @@
 <?php
+// Usersテーブルと多対1
+// Conditionsテーブルと多対1
+// Commentsテーブルと1対多
+// Salesテーブルと1対1
+// Purchasesテーブルと1対1
+// Categoryテーブルと1対1
 
 namespace App\Models;
 

@@ -1,4 +1,5 @@
 <?php
+// Itemsテーブルと1対1
 
 namespace App\Models;
 
@@ -32,7 +33,7 @@ class Category extends Model
     // itemsテーブルとのリレーション定義
     public function item()
     {
-        return $this->hasOne(Item::class);
+        return $this->belongsTo(Item::class);
     }
 
     // Categoryファクトリのルール

@@ -1,4 +1,9 @@
 <?php
+// Destinationsテーブルと1対1
+// Salesテーブルと1対多
+// Purchasesテーブルと1対多
+// Itemsテーブルと1対多
+// Commentsテーブルと1対多
 
 namespace App\Models;
 
@@ -42,12 +47,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Userファクトリのルール
-    // public static $rules = array(
-    //     'name' => 'required|string|max:255',
-    //     'email' => 'required|email|string|max:255',
-    //     'password' => 'required|string|max:255',
-
-    // );
+    // destinationsテーブルとのリレーション定義
+    public function destination()
+    {
+        return $this->hasOne(Destination::class);
+    }
 
 }

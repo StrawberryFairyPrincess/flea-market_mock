@@ -1,4 +1,5 @@
 <?php
+// Usersテーブルと1対1
 
 namespace App\Models;
 
@@ -15,13 +16,14 @@ class Destination extends Model
 
         'post_code',
         'address',
-        'building'
+        'building',
+        'img_pass'
     ];
 
     // usersテーブルとのリレーション定義
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
 }

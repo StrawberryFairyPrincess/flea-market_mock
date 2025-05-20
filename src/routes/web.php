@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\RegisteredUserController;
 
 
 /*
@@ -25,16 +27,24 @@ Route::middleware('auth')->group(function () {
 
     // 送付先住所変更画面
 
-    // 商品出品画面
-    Route::get('/sell', [ItemController::class, 'sell']);
+    // ヘッダーのリンク表示（商品出品画面）
+    Route::get('/sell', [AuthController::class, 'sell']);
 
     Route::prefix('/mypage')->group(function () {
 
-        // マイページ(プロフィール画面)
-        Route::get('', [ItemController::class, 'mypage']);
+        // ヘッダーのリンク表示（マイページ(プロフィール画面)）
+        Route::get('', [AuthController::class, 'mypage']);
 
-        // プロフィール編集画面(設定画面)
-        Route::get('/profile', [ItemController::class, 'profile']);
+        Route::prefix('/profile')->group(function () {
+
+            // プロフィール編集画面(設定画面)を表示
+            Route::get('', [UserController::class, 'profile']);
+
+            // プロフィール編集画面(設定画面)を更新
+            Route::post('', [UserController::class, 'update']);
+
+        });
+
 
     });
 

@@ -21,6 +21,7 @@ class CreateDestinationsTable extends Migration
             $table->string('post_code');
             $table->string('address');
             $table->string('building')->nullable();
+            $table->string('img_pass')->nullable();
 
             $table->timestamps();
         });

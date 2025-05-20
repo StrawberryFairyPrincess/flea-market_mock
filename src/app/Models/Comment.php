@@ -1,4 +1,6 @@
 <?php
+// Usersテーブルと多対1
+// Itemsテーブルと多対1
 
 namespace App\Models;
 

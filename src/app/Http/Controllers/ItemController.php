@@ -17,17 +17,6 @@ use App\Models\Comment;
 class ItemController extends Controller
 {
 
-    // ヘッダーのリンク（マイページ(プロフィール画面)）
-    public function mypage()
-    {
-        return view('mypage');
-    }
-    // ヘッダーのリンク（出品）
-    public function sell()
-    {
-        return view('sell');
-    }
-
     public function index()
     {
 
@@ -39,11 +28,6 @@ class ItemController extends Controller
 
     }
 
-    // プロフィール編集画面(設定画面)
-    public function profile()
-    {
-        return view('profile');
-    }
 
 
 }

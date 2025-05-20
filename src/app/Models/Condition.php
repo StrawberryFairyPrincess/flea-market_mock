@@ -1,4 +1,5 @@
 <?php
+// Itemsテーブルと1対多
 
 namespace App\Models;
 
