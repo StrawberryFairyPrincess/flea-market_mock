@@ -57,5 +57,7 @@ Route::get('/', [ItemController::class, 'index']);
 Route::get('/search', [ItemController::class, 'search']);
 
 // 商品詳細画面
-Route::get('/item/:item_id', [ItemController::class, 'item']);
+Route::get('/item/{item_id}', [ItemController::class, 'item']);
+Route::get('/item/like/{item_id}', 'App\Http\Controllers\ItemController@like')->name('item.like');
+Route::get('/item/dislike/{item_id}', 'App\Http\Controllers\ItemController@dislike')->name('item.dislike');
 

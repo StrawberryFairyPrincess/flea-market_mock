@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Destination;
 use App\Models\Condition;
-use App\Models\Item;
 use App\Models\Category;
-use App\Models\Sale;
+use App\Models\Categorization;
+use App\Models\Item;
+use App\Models\Like;
 use App\Models\Purchase;
 use App\Models\Comment;
 

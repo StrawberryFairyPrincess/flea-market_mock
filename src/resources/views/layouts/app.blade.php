@@ -21,8 +21,10 @@
 
         <div class="header__inner">
 
-            <div class="logo">
-                <img src="{{ asset('./img/logo.svg') }}" alt="coachtech">
+            <div>
+                <a href="/" class="logo">
+                    <img src="{{ asset('./img/logo.svg') }}" alt="coachtech">
+                </a>
             </div>
 
             <?php if ( Auth::check() ){ ?>

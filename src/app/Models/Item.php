@@ -41,9 +41,13 @@ class Item extends Model
         return $this->belongsTo(Condition::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->hasMany(category::class);
+        return $this->hasMany(category::class, 'item_id');
+    }
+
+    public function likes(){
+        return $this->hasMany(Like::class, 'item_id');
     }
 
     // キーワード検索
@@ -54,6 +58,33 @@ class Item extends Model
             $query->where('name', 'like', '%' . $keyword . '%');
                 // ->orWhere('brand', 'like', '%' . $keyword . '%')
                 // ->orWhere('describe', 'like', '%' . $keyword . '%');
+        }
+    }
+
+    /**
+     * 商品にLIKEが付いているかの判定
+    * @return bool
+    * true:Likeがついてる false:Likeがついてない
+    */
+    public function is_liked_by_auth_user()
+    {
+        if(\Auth::check()){
+            $id = \Auth::user()->id;
+        }
+        else{
+            $id = 0;
+        }
+
+        $likers = array();
+        foreach($this->likes as $like) {
+            array_push($likers, $like->user_id);
+        }
+
+        if (in_array($id, $likers)) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
