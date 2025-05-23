@@ -10,7 +10,7 @@ class Condition extends Model
 {
     use HasFactory;
 
-    // contactsテーブルのカラムのうち操作可能にするもの
+    // Conditionsテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
         'condition'
     ];

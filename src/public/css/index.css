@@ -1,1 +1,64 @@
+a{
+    text-decoration: none;
+}
+a,
+a:hover,
+a:visited {
+    color: inherit;
+}
 
+.tabbox{
+    border-bottom: solid 2px #5F5F5F;
+    padding-top: 50px;
+}
+.tabbox input {
+    display: none;
+}
+input[type="radio"] + label,
+input[type="radio"] + span{
+    font-size: 24px;
+    font-weight: 700;
+    color: #5F5F5F;
+    padding-left: 100px;
+}
+input[type="radio"]:checked + label{
+    color: #FF0000;
+}
+
+span{
+    /* font-size: 24px;
+    font-weight: 700;
+    color: #5F5F5F;
+    padding-left: 100px; */
+}
+/* .checked{
+    color: #FF0000;
+} */
+.name span{
+    color: #000000;
+    font-size: 25px;
+    font-weight: 400;
+    padding-left: 0px;
+}
+
+.items{
+    padding-top: 70px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 70px;
+}
+
+.item {
+    width: 290px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    box-sizing: content-box;;
+}
+
+.item-img{
+    background: #D9D9D9;
+    border-radius: 4px;
+}
+.item-img img{
+    width: 290px;
+}

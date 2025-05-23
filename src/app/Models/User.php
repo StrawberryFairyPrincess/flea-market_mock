@@ -4,6 +4,7 @@
 // Purchasesテーブルと1対多
 // Itemsテーブルと1対多
 // Commentsテーブルと1対多
+// Likesテーブルと1対多
 
 namespace App\Models;
 

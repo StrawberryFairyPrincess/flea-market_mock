@@ -10,7 +10,7 @@ class Destination extends Model
 {
     use HasFactory;
 
-    // contactsテーブルのカラムのうち操作可能にするもの
+    // Destinationsテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
         'user_id',
 

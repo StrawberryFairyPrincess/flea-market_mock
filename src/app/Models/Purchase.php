@@ -11,7 +11,7 @@ class Purchase extends Model
 {
     use HasFactory;
 
-    // contactsテーブルのカラムのうち操作可能にするもの
+    // Purchasesテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
         'user_id',
         'item_id'

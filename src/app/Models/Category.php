@@ -1,5 +1,5 @@
 <?php
-// Itemsテーブルと1対1
+// Itemsテーブルと多対1
 
 namespace App\Models;
 
@@ -10,52 +10,26 @@ class Category extends Model
 {
     use HasFactory;
 
-    // contactsテーブルのカラムのうち操作可能にするもの
+    // Categoriesテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
-        'item_id',
-
-        'fashion',
-        'appliance',
-        'interior',
-        'lady',
-        'man',
-        'cosmetic',
-        'book',
-        'game',
-        'sport',
-        'kitchen',
-        'handmade',
-        'accessory',
-        'toy',
-        'child'
+        'category'
     ];
-
-    // itemsテーブルとのリレーション定義
-    public function item()
-    {
-        return $this->belongsTo(Item::class);
-    }
-
-    // Categoryファクトリのルール
-    public static $rules = array(
-        'item_id' => 'required',
-
-        'fashion' => 'required|min:0|max:1',
-        'appliance' => 'required|min:0|max:1',
-        'interior' => 'required|min:0|max:1',
-        'lady' => 'required|min:0|max:1',
-        'man' => 'required|min:0|max:1',
-        'cosmetic' => 'required|min:0|max:1',
-        'book' => 'required|min:0|max:1',
-        'game' => 'required|min:0|max:1',
-        'sport' => 'required|min:0|max:1',
-        'kitchen' => 'required|min:0|max:1',
-        'handmade' => 'required|min:0|max:1',
-        'accessory' => 'required|min:0|max:1',
-        'toy' => 'required|min:0|max:1',
-        'child' => 'required|min:0|max:1'
-
-    );
 
 }
 
+
+
+// 1: ファッション
+// 2: 家電
+// 3: インテリア
+// 4: レディース
+// 5: メンズ
+// 6: コスメ
+// 7: 本
+// 8: ゲーム
+// 9: スポーツ
+// 10: キッチン
+// 11: ハンドメイド
+// 12: アクセサリー
+// 13: おもちゃ
+// 14: ベビー・キッズ

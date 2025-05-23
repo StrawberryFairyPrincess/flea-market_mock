@@ -53,10 +53,9 @@ Route::middleware('auth')->group(function () {
 // 商品一覧画面(トップ画面)
 Route::get('/', [ItemController::class, 'index']);
 
-// 会員登録画面
-
-// ログイン画面
+// ヘッダーからの検索機能
+Route::get('/search', [ItemController::class, 'search']);
 
 // 商品詳細画面
-
+Route::get('/item/:item_id', [ItemController::class, 'item']);
 

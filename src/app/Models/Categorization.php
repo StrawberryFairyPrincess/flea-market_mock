@@ -1,29 +1,19 @@
 <?php
-// Usersテーブルと多対1
-// Itemsテーブルと多対1
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Categorization extends Model
 {
     use HasFactory;
 
-    // Commentsテーブルのカラムのうち操作可能にするもの
+    // Categorizationsテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
-        'user_id',
         'item_id',
-
-        'comment'
+        'category_id'
     ];
-
-    // usersテーブルとのリレーション定義
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     // itemsテーブルとのリレーション定義
     public function item()
@@ -31,6 +21,9 @@ class Comment extends Model
         return $this->belongsTo(Item::class);
     }
 
-
+    // Categorizationファクトリのルール
+    public static $rules = array(
+        'item_id' => 'required|min:1|max:10',
+        'category_id' => 'required|min:1|max:14'
+    );
 }
-

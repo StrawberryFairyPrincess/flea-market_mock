@@ -1,17 +1,17 @@
 <?php
 // Usersテーブルと多対1
-// Itemsテーブルと1対1
+// Itemsテーブルと多対1
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class Like extends Model
 {
     use HasFactory;
 
-    // contactsテーブルのカラムのうち操作可能にするもの
+    // Likesテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
         'user_id',
         'item_id'
@@ -28,6 +28,4 @@ class Sale extends Model
     {
         return $this->belongsTo(Item::class);
     }
-
 }
-

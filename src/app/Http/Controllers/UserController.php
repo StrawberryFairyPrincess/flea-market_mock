@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\DestinationRequest;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -54,7 +56,7 @@ class UserController extends Controller
     }
 
     // プロフィール編集画面(設定画面)の更新
-    public function update(Request $request)
+    public function update(DestinationRequest $request)
     {
         // 値を取得したいキー
         $form = $request->only([
@@ -99,10 +101,6 @@ class UserController extends Controller
 
         return redirect('/');
     }
-
-
-
-
 
 
 }

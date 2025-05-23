@@ -16,22 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-
-            $table->integer('fashion');
-            $table->integer('appliance');
-            $table->integer('interior');
-            $table->integer('lady');
-            $table->integer('man');
-            $table->integer('cosmetic');
-            $table->integer('book');
-            $table->integer('game');
-            $table->integer('sport');
-            $table->integer('kitchen');
-            $table->integer('handmade');
-            $table->integer('accessory');
-            $table->integer('toy');
-            $table->integer('child');
+            $table->string('category');
 
             $table->timestamps();
         });
@@ -47,3 +32,18 @@ class CreateCategoriesTable extends Migration
         Schema::dropIfExists('categories');
     }
 }
+
+// 1: ファッション
+// 2: 家電
+// 3: インテリア
+// 4: レディース
+// 5: メンズ
+// 6: コスメ
+// 7: 本
+// 8: ゲーム
+// 9: スポーツ
+// 10: キッチン
+// 11: ハンドメイド
+// 12: アクセサリー
+// 13: おもちゃ
+// 14: ベビー・キッズ
