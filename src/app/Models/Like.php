@@ -6,6 +6,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Item;
+
 
 class Like extends Model
 {
@@ -17,15 +20,16 @@ class Like extends Model
         'item_id'
     ];
 
-    // usersテーブルとのリレーション定義
+    // Usersテーブルとのリレーション定義
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // itemsテーブルとのリレーション定義
+    // Itemsテーブルとのリレーション定義
     public function item()
     {
         return $this->belongsTo(Item::class);
     }
+
 }

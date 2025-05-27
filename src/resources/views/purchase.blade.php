@@ -6,7 +6,8 @@
 
 @section('content')
 
-
+商品購入画面</br>
+item_id: {{$item['id']}}
 
 
 @endsection

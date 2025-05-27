@@ -1,10 +1,12 @@
 <?php
-// Itemsテーブルと多対1
+// Itemsテーブルと多対多
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Item;
 
 class Category extends Model
 {
@@ -14,6 +16,14 @@ class Category extends Model
     protected $fillable = [
         'category'
     ];
+
+    // Itemsテーブルとのリレーション定義
+    // public function items(): BelongsToMany
+    public function item()
+    {
+        // return $this->belongsToMany(Item::class, 'category_item');
+        return $this->belongsToMany(Item::class);
+    }
 
 }
 

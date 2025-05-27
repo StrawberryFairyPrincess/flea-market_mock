@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\CommentRequest;
 
 use App\Models\User;
 use App\Models\Destination;
@@ -19,21 +20,15 @@ use App\Models\Comment;
 class ItemController extends Controller
 {
 
+    // 商品一覧画面表示
     public function index(Request $request)
     {
 
-        // $items = Item::with('like')->get();
-
-        // $tab = [
-        //     // bladeで受け取るときの変数名をつける($tabとして受け取る)
-        //     'tab' => $request->tab
-        // ];
-
-        // /?tab=mylistだったらlikeで絞り込み検索
+        // /?tab=mylistだったらlikeで絞り込み
         if($request->tab == 'mylist'){
-            
-
-
+            // いいねで絞り込み
+            $user = \Auth::user();
+            $items = $user->likeItems;
         }
         // /だったら全件取得
         else{
@@ -45,12 +40,23 @@ class ItemController extends Controller
         return view('index', compact('items'));
     }
 
-    // 商品詳細ページ表示
+    // 商品詳細画面表示
     public function item(Request $request)
     {
         $item = Item::find($request->item_id);
+        $categories = $item['category'];
+        $condition = $item['condition']['condition'];
 
-        return view('item', compact('item'));
+        return view('item', compact('item', 'categories', 'condition'));
+    }
+
+    // 商品購入画面表示
+    public function purchase(Request $request)
+    {
+        $item = Item::find($request->item_id);
+
+
+        return view('purchase', compact('item'));
     }
 
     // 検索機能
@@ -96,7 +102,17 @@ class ItemController extends Controller
         return redirect()->back();
     }
 
+    // コメント機能
+    public function comment(CommentRequest $request)
+    {
+        $comment = new Comment();
+        $comment->user_id = \Auth::user()->id;
+        $comment->item_id = $request->item_id;
+        $comment->comment = $request->comment;
+        $comment->save();
 
+        return redirect()->back();
+    }
 
 
 }

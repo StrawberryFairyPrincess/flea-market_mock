@@ -21,6 +21,18 @@ use App\Models\Comment;
 
 class UserController extends Controller
 {
+
+    // ヘッダーのリンク表示（マイページ(プロフィール画面)）
+    public function mypage()
+    {
+        return view('mypage');
+    }
+    // ヘッダーのリンク表示（出品）
+    public function sell()
+    {
+        return view('sell');
+    }
+
     // プロフィール編集画面(設定画面)
     public function profile()
     {

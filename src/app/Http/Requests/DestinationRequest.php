@@ -32,7 +32,7 @@ class DestinationRequest extends FormRequest
         ];
     }
 
-    // 表示するエラー文を設定
+    // 表示するエラー文の設定
     public function messages()
     {
         return [

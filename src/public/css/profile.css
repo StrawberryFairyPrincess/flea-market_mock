@@ -50,6 +50,7 @@
 .form__error {
     height: 20px;
     color: #FF5555;
+    font-size: 1.4vw;
     text-align: left;
 }
 

@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Destination;
+use App\Models\Item;
+use App\Models\Like;
+use App\Models\Comment;
 
 class User extends Authenticatable
 {
@@ -48,10 +52,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // destinationsテーブルとのリレーション定義
+    // Destinationsテーブルとのリレーション定義
     public function destination()
     {
         return $this->hasOne(Destination::class);
     }
+
+    // Itemsテーブルとのリレーション定義
+    // Likesテーブル経由
+    public function likeItems()
+    {
+        return $this->belongsToMany(Item::class, 'likes');
+    }
+
+    // Commentsテーブルとのリレーション定義
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 
 }

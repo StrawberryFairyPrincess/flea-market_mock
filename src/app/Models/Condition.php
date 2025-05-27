@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Item;
 
 class Condition extends Model
 {
@@ -15,6 +16,10 @@ class Condition extends Model
         'condition'
     ];
 
+    // Itemsテーブルとのリレーション定義
+    public function items() {
+        return $this->hasMany(Item::class);
+    }
 
 }
 

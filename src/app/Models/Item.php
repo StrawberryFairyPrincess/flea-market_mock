@@ -4,13 +4,20 @@
 // Commentsテーブルと1対多
 // Salesテーブルと1対1
 // Purchasesテーブルと1対1
-// Categoriesテーブルと1対多
+// Categoriesテーブルと多対多
 // Likesテーブルと1対多
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\User;
+use App\Models\Condition;
+use App\Models\Category;
+use App\Models\Like;
+use App\Models\Comment;
+
 
 class Item extends Model
 {
@@ -29,11 +36,11 @@ class Item extends Model
         'stock'
     ];
 
-    // Usersテーブルとのリレーション定義
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // // Usersテーブルとのリレーション定義
+    // public function user()
+    // {
+    //     return $this->belongsToMany(User::class, 'likes');
+    // }
 
     // Conditionsテーブルとのリレーション定義
     public function condition()
@@ -41,13 +48,21 @@ class Item extends Model
         return $this->belongsTo(Condition::class);
     }
 
-    public function categories()
+    // Categoriesテーブルとのリレーション定義
+    public function category()
     {
-        return $this->hasMany(category::class, 'item_id');
+        return $this->belongsToMany(Category::class);
     }
 
+    // Likesテーブルとのリレーション定義(いいね機能)
     public function likes(){
         return $this->hasMany(Like::class, 'item_id');
+    }
+
+    // Commentsテーブルとのリレーション定義
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     // キーワード検索

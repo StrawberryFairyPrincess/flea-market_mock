@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Categorization;
+// use App\Models\CategoryItem;
 
 
 
@@ -30,8 +30,9 @@ class DatabaseSeeder extends Seeder
         // Itemsテーブルへのシーディング処理（user_idとcondition_idが存在しないとだめ）
         $this->call(ItemsTableSeeder::class);
 
-        // Categorizationsテーブルのファクトリからのシーディング（item_idとcategory_idが存在しないとだめ）
-        Categorization::factory()->count(50)->create();
+        // Category_Itemテーブルのファクトリからのシーディング（item_idとcategory_idが存在しないとだめ）
+        // CategoryItem::factory()->count(50)->create();
+        $this->call(CategoryItemSeeder::class);
 
     }
 }
