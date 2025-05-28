@@ -38,15 +38,18 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    // ヘッダーのリンク表示（商品出品画面）
+    // 商品出品画面の表示（ヘッダーのリンク）
     Route::get('/sell', [UserController::class, 'sell']);
 
     // 商品購入画面の表示
     Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);
+    // 商品の購入
+    Route::post('/purchase/{item_id}', [UserController::class, 'purchase']);
 
     // 送付先住所変更画面の表示
+    Route::get('/purchase/address/{item_id}', [UserController::class, 'address']);
 
-    // コメント機能
+    // コメント機能(商品詳細画面)
     Route::post('/comment/{item_id}', [ItemController::class, 'comment']);
 
 });
@@ -57,10 +60,11 @@ Route::get('/', [ItemController::class, 'index']);
 // 商品詳細画面の表示
 Route::get('/item/{item_id}', [ItemController::class, 'item']);
 
-// ヘッダーからの検索機能
+// 検索機能(ヘッダー)
 Route::get('/search', [ItemController::class, 'search']);
 
-// いいね機能
-Route::get('/item/like/{item_id}', 'App\Http\Controllers\ItemController@like')->name('item.like');
-Route::get('/item/dislike/{item_id}', 'App\Http\Controllers\ItemController@dislike')->name('item.dislike');
+// いいね機能(商品詳細画面)
+Route::get('/item/like/{item_id}', [ItemController::class, 'like'])->name('item.like');
+// いいねを外す
+Route::get('/item/dislike/{item_id}', [ItemController::class, 'dislike'])->name('item.dislike');
 

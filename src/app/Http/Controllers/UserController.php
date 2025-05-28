@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\DestinationRequest;
+use App\Http\Requests\PurchaseRequest;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -37,21 +38,11 @@ class UserController extends Controller
     public function profile()
     {
         // ログイン中のユーザー情報を取得
-        $users = User::where('id', \Auth::user()->id)->get();
-        foreach( $users as $user ){
-            if( $user['id'] == \Auth::user()->id ){
-                break;
-            }
-        }
+        $user = \Auth::user();
 
         // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
         if( DB::table('destinations')->where('id', \Auth::user()->id)->exists() ){
-            $destinations = Destination::where('id', \Auth::user()->id)->get();
-            foreach( $destinations as $destination ){
-                if( $destination['id'] == \Auth::user()->id ){
-                    break;
-                }
-            }
+            $destination = Destination::where('id', \Auth::user()->id)->first();
         }
         // 初回ログイン時はレコードがないためとりあえずNULLを入れて空欄を表示
         else{
@@ -81,7 +72,7 @@ class UserController extends Controller
         ]);
 
         // ユーザー名を更新
-        $user = User::where('id', \Auth::user()->id)->first();
+        $user = \Auth::user();
         $user['name'] = $form['name'];
         $user->save();
 
@@ -115,5 +106,29 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    // 住所変更画面(商品購入画面から)
+    public function address(Request $request)
+    {
+        // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
+        $destination = Destination::where('id', \Auth::user()->id)->first();
 
+        $item_id = $request->item_id;
+
+        return view('/address', compact('destination', 'item_id'));
+    }
+
+    // 商品の購入(商品購入画面から)
+    public function purchase(PurchaseRequest $request)
+    {
+        // 購入履歴がない商品のみデータベースに追加
+        if(! Purchase::where('item_id', $request->item_id)->exists() )
+        {
+            $purchase = new Purchase();
+            $purchase->user_id = \Auth::user()->id;
+            $purchase->item_id = $request->item_id;
+            $purchase->save();
+        }
+
+        return redirect('/mypage?tab=buy');
+    }
 }

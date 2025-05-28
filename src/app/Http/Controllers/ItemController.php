@@ -23,7 +23,6 @@ class ItemController extends Controller
     // 商品一覧画面表示
     public function index(Request $request)
     {
-
         // /?tab=mylistだったらlikeで絞り込み
         if($request->tab == 'mylist'){
             // いいねで絞り込み
@@ -46,17 +45,19 @@ class ItemController extends Controller
         $item = Item::find($request->item_id);
         $categories = $item['category'];
         $condition = $item['condition']['condition'];
+        $sold = Purchase::where('item_id', $request->item_id)->exists();
 
-        return view('item', compact('item', 'categories', 'condition'));
+        return view('item', compact('item', 'categories', 'condition', 'sold'));
     }
 
     // 商品購入画面表示
     public function purchase(Request $request)
     {
         $item = Item::find($request->item_id);
+        $user = \Auth::user();
+        $sold = Purchase::where('item_id', $request->item_id)->exists();//true or false
 
-
-        return view('purchase', compact('item'));
+        return view('purchase', compact('item', 'user', 'sold'));
     }
 
     // 検索機能
@@ -64,7 +65,6 @@ class ItemController extends Controller
     {
         // キーワード
         if(!empty($request->keyword)) {
-            // $items = Item::with('category')
             $items = Item::KeywordSearch($request->keyword)
                 // ->CategorySearch($request->keyword)
                 ->get();

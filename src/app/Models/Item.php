@@ -17,6 +17,7 @@ use App\Models\Condition;
 use App\Models\Category;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Models\Purchase;
 
 
 class Item extends Model
@@ -33,7 +34,6 @@ class Item extends Model
         'price',
         'describe',
         'img_url',
-        'stock'
     ];
 
     // // Usersテーブルとのリレーション定義
@@ -63,6 +63,12 @@ class Item extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // Purchasesテーブルとのリレーション定義
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class);
     }
 
     // キーワード検索

@@ -24,7 +24,6 @@ class CreateItemsTable extends Migration
             $table->integer('price');
             $table->string('describe')->nullable();
             $table->string('img_url')->nullable();
-            $table->integer('stock');
 
             $table->timestamps();
         });

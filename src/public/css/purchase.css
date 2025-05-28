@@ -1,1 +1,167 @@
+.purchase{
+    display: flex;
+}
 
+/* 画面左部 */
+.content{
+    width: 60%;
+}
+.content,
+.display{
+    padding: 50px;
+}
+
+.item,
+.payment,
+.destination{
+    border-bottom: 1px solid #000000;
+    padding-bottom: 50px;
+}
+.item{
+    display: flex;
+}
+.item-img img {
+    max-width: 170px;
+    max-height: 170px;
+    width: 100%;
+    object-fit: cover;
+    background-color: #D9D9D9;
+}
+.item-content{
+    margin-left: 50px;
+}
+.item-name{
+    font-size: 4.0vw;
+    font-weight: 700;
+}
+.price{
+    font-size: 3.6vw;
+    font-weight: 400;
+}
+.price-number{
+    font-size: 4.2vw;
+}
+
+.select_wrapper {
+    position: relative;
+    width: 70%;
+    padding: 30px;
+}
+.select_wrapper::after {
+    pointer-events: none; /*矢印部分をクリックを可能にする*/
+    position: absolute;
+    color: #5F5F5F;
+    top: 50%;
+    right: 35px;
+    transform: translateY(-50%); /* ▼を上に移動 */
+    content: "▼";
+    font-size: 1.0vw;
+}
+select {
+    appearance: none;
+}
+#select {
+    color: #5F5F5F;
+    border: solid 1px #5F5F5F;
+    border-radius: 4px;
+    font-size: 1.15vw;
+    font-weight: 700;
+    width: 100%;
+    padding: 5px;
+}
+
+.payment,
+.destination{
+    padding: 30px;
+}
+.ttl{
+    font-size: 1.4vw;
+    font-weight: 700;
+}
+.address{
+    font-size: 1.4vw;
+    font-weight: 600;
+    padding: 30px;
+}
+.address input{
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    width: 90%;
+    cursor: default;
+}
+.destination-change{
+    text-align: right;
+    transform: translateY(-100%);
+
+}
+.destination-change a{
+    font-size: 1.4vw;
+    font-weight: 400;
+    text-decoration: none;
+    color: #0073CC;
+}
+
+/* 画面右部 */
+.display{
+    width: 40%;
+
+}
+.display-price,
+.display-payment{
+    font-size: 1.4vw;
+    font-weight: 400;
+    border: solid 1px #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.display-ttl{
+    padding: 15% 0 15% 15%;
+}
+.display-price-num,
+#displayArea{
+    font-size: 1.7vw;
+    font-weight: 400;
+    padding: 15% 15% 15% 0;
+}
+.display-price-symbol{
+    font-size: 1.4vw;
+}
+.purchase-btn{
+    background-color: #FF5555;
+    color: #FFFFFF;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 1.8vw;
+    height: 60px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    margin-top: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.form__error {
+    height: 20px;
+    color: #FF5555;
+    font-size: 1.4vw;
+}
+
+.sold{
+    background-color: #5F5F5F;
+    color: #FFFFFF;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 1.8vw;
+    height: 60px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    margin-top: 50px;
+    text-align: center;
+    vertical-align: middle;
+}

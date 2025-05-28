@@ -71,7 +71,12 @@
         <div class="purchase">
             <form  class="purchase-btn" action="{{ '/purchase/' . $item['id'] }}" method="GET">
                 @csrf
-                <button type="submit">購入手続きへ</button>
+
+                @if( $sold )
+                    <button class="sold" type="button" disabled>完売しました</button>
+                @else
+                    <button type="submit">購入手続きへ</button>
+                @endif
             </form>
         </div>
 

@@ -5,7 +5,8 @@
 @endsection
 
 @section('content')
-
+住所変更画面</br>
+ItemID: {{$item_id}}
 
 
 

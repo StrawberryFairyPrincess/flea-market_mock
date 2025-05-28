@@ -49,3 +49,25 @@ span{
 .item-img img{
     width: 290px;
 }
+
+.mask-sold {
+    width: 290px;
+    height: 290px;
+    position: absolute;
+    z-index: 100;
+    transform: translateY(-290px);
+}
+.mask-sold .sold{
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.mask-sold .sold>p {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+}
