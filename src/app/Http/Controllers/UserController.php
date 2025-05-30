@@ -106,7 +106,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    // 住所変更画面(商品購入画面から)
+    // 住所変更画面の表示(商品購入画面から)
     public function address(Request $request)
     {
         // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
@@ -115,6 +115,40 @@ class UserController extends Controller
         $item_id = $request->item_id;
 
         return view('/address', compact('destination', 'item_id'));
+    }
+
+    // 住所変更・更新(送付先住所変更画面から)
+    public function destination(DestinationRequest $request)
+    {
+        // 値を取得したいキー
+        $form = $request->only([
+            'item_id',
+            'post_code',
+            'address',
+            'building'
+        ]);
+
+        // Destinationsテーブルに自分のidのレコードがあったら更新
+        if( DB::table('destinations')->where('id', \Auth::user()->id)->exists() ){
+            // レコードを検索
+            $destination = Destination::where('id', \Auth::user()->id)->first();
+        }
+        // Destinationsテーブルに自分のidのレコードがなかったら作成（プロフィールを登録してなかった場合）
+        else{
+            // レコードを作成
+            $destination = new Destination;
+            $destination['id'] = \Auth::user()->id;
+            $destination['user_id'] = \Auth::user()->id;
+        }
+
+        // フォームのデータを代入
+        $destination['post_code'] = $form['post_code'];
+        $destination['address'] = $form['address'];
+        $destination['building'] = $form['building'];
+
+        $destination->save();
+
+        return redirect('/purchase/' . $request->item_id);
     }
 
     // 商品の購入(商品購入画面から)

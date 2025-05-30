@@ -54,7 +54,6 @@
                         </div>
                     @endif
                 </div>
-                
 
                 {{-- 商品名 --}}
                 <div class="name">

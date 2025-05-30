@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
 
     // 送付先住所変更画面の表示
     Route::get('/purchase/address/{item_id}', [UserController::class, 'address']);
+    // 送付先住所を更新
+    Route::post('/purchase/address/{item_id}', [UserController::class, 'destination']);
 
     // コメント機能(商品詳細画面)
     Route::post('/comment/{item_id}', [ItemController::class, 'comment']);
