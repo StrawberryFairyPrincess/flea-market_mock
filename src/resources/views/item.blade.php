@@ -27,7 +27,7 @@
         <span class="item-name">{{ $item['name'] }}</span></br>
 
         {{-- ブランド名 --}}
-        <span class="item-brand">ぶらんどめい{{ $item['brand'] }}</span></br>
+        <span class="item-brand">{{ $item['brand'] }}</span></br>
 
         {{-- 価格 --}}
         <?php $price = number_format( $item['price'], 0 ); ?>

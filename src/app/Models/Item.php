@@ -68,7 +68,7 @@ class Item extends Model
     // Purchasesテーブルとのリレーション定義
     public function purchase()
     {
-        return $this->hasOne(Purchase::class);
+        return $this->hasOne(Purchase::class, 'item_id');
     }
 
     // キーワード検索

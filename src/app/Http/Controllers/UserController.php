@@ -24,10 +24,26 @@ class UserController extends Controller
 {
 
     // ヘッダーのリンク表示（マイページ(プロフィール画面)）
-    public function mypage()
+    public function mypage(Request $request)
     {
-        return view('mypage');
+        $user = \Auth::user();
+
+        // mypage?tab=buyのとき
+        if( $request->tab == 'buy' ){
+            // 購入した商品に絞る
+            $items = $user->purchaseItems;
+        }
+        // mypage?tab=sellか/mypageのとき
+        else{
+            // 販売した商品に絞る
+            if( Purchase::where('user_id', \Auth::user()->id)->exists() ){
+                $items = Item::where('user_id', \Auth::user()->id)->get();
+            }
+        }
+
+        return view('mypage', compact('user', 'items'));
     }
+
     // ヘッダーのリンク表示（出品）
     public function sell()
     {

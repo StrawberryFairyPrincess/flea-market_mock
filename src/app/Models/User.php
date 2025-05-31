@@ -17,6 +17,7 @@ use App\Models\Destination;
 use App\Models\Item;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Models\Purchase;
 
 class User extends Authenticatable
 {
@@ -71,5 +72,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    // Itemsテーブルとのリレーション定義
+    // Purchasesテーブル経由
+    public function purchaseItems()
+    {
+        return $this->belongsToMany(Item::class, 'purchases');
+    }
 
 }
