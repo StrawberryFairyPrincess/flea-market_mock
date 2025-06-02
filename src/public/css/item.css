@@ -78,10 +78,10 @@ span{
 }
 
 .purchase-btn button[ type="submit" ],
-.comment-btn button{
-    background-color: #FF5555;
-    color: #FFFFFF;
-    cursor: pointer;
+.comment-btn button,
+.sold{
+
+
     font-family: "Inter", sans-serif;
     font-weight: 700;
     font-size: 2.1vw;
@@ -91,6 +91,12 @@ span{
     border: none;
     margin-top: 20px;
     text-align: center;
+}
+.purchase-btn button[ type="submit"],
+.comment-btn button{
+    background-color: #FF5555;
+    color: #FFFFFF;
+    cursor: pointer;
 }
 .sold {
     background-color: #5F5F5F;

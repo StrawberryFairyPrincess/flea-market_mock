@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
 
     // 商品出品画面の表示（ヘッダーのリンク）
     Route::get('/sell', [UserController::class, 'sell']);
+    // 商品の出品
+    Route::post('/sell', [ItemController::class, 'sell']);
 
     // 商品購入画面の表示
     Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);

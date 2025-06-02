@@ -7,13 +7,12 @@ use App\Http\Requests\DestinationRequest;
 use App\Http\Requests\PurchaseRequest;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Destination;
 use App\Models\Condition;
 use App\Models\Category;
-use App\Models\Categorization;
 use App\Models\Item;
 use App\Models\Like;
 use App\Models\Purchase;
@@ -23,7 +22,7 @@ use App\Models\Comment;
 class UserController extends Controller
 {
 
-    // ヘッダーのリンク表示（マイページ(プロフィール画面)）
+    // マイページ(プロフィール画面)の表示(ヘッダーのリンクから)
     public function mypage(Request $request)
     {
         $user = \Auth::user();
@@ -44,20 +43,23 @@ class UserController extends Controller
         return view('mypage', compact('user', 'items'));
     }
 
-    // ヘッダーのリンク表示（出品）
+    // 商品出品画面の表示(ヘッダーのリンクから)
     public function sell()
     {
-        return view('sell');
+        $categories = Category::all();
+        $conditions = Condition::all();
+
+        return view('sell', compact('categories', 'conditions'));
     }
 
-    // プロフィール編集画面(設定画面)
+    // プロフィール編集画面(設定画面)の表示
     public function profile()
     {
         // ログイン中のユーザー情報を取得
         $user = \Auth::user();
 
         // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
-        if( DB::table('destinations')->where('id', \Auth::user()->id)->exists() ){
+        if( Destination::where('id', \Auth::user()->id)->exists() ){
             $destination = Destination::where('id', \Auth::user()->id)->first();
         }
         // 初回ログイン時はレコードがないためとりあえずNULLを入れて空欄を表示
@@ -93,7 +95,7 @@ class UserController extends Controller
         $user->save();
 
         // Destinationsテーブルに自分のidのレコードがあったら更新
-        if( DB::table('destinations')->where('id', \Auth::user()->id)->exists() ){
+        if( Destination::where('id', \Auth::user()->id)->exists() ){
             // レコードを検索
             $destination = Destination::where('id', \Auth::user()->id)->first();
         }
@@ -145,7 +147,7 @@ class UserController extends Controller
         ]);
 
         // Destinationsテーブルに自分のidのレコードがあったら更新
-        if( DB::table('destinations')->where('id', \Auth::user()->id)->exists() ){
+        if( Destination::where('id', \Auth::user()->id)->exists() ){
             // レコードを検索
             $destination = Destination::where('id', \Auth::user()->id)->first();
         }
@@ -173,10 +175,11 @@ class UserController extends Controller
         // 購入履歴がない商品のみデータベースに追加
         if(! Purchase::where('item_id', $request->item_id)->exists() )
         {
-            $purchase = new Purchase();
-            $purchase->user_id = \Auth::user()->id;
-            $purchase->item_id = $request->item_id;
-            $purchase->save();
+            $purchase = [
+                'user_id' => \Auth::user()->id,
+                'item_id' => $request->item_id
+            ];
+            Purchase::create($purchase);
         }
 
         return redirect('/mypage?tab=buy');

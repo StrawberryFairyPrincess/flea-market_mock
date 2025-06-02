@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\CommentRequest;
+use App\Http\Requests\ExhibitionRequest;
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
+// use Illuminate\Database\Eloquent\Collection;
 
 use App\Models\User;
 use App\Models\Destination;
 use App\Models\Condition;
 use App\Models\Category;
-use App\Models\Categorization;
 use App\Models\Item;
 use App\Models\Like;
 use App\Models\Purchase;
@@ -105,14 +108,46 @@ class ItemController extends Controller
     // コメント機能
     public function comment(CommentRequest $request)
     {
-        $comment = new Comment();
-        $comment->user_id = \Auth::user()->id;
-        $comment->item_id = $request->item_id;
-        $comment->comment = $request->comment;
-        $comment->save();
+        $comment = [
+            'user_id' => \Auth::user()->id,
+            'item_id' => $request->item_id,
+            'comment' => $request->comment,
+        ];
+        Comment::create($comment);
 
         return redirect()->back();
     }
 
+    // 商品を出品(商品出品画面から)
+    public function sell(ExhibitionRequest $request)
+    {
+        // 新規Itemテーブルレコード
+        $item = [
+            'user_id' => \Auth::user()->id,
+            'condition_id' => $request->condition_id,
+            'name' => $request->name,
+            'brand' => $request->brand,
+            'price' => $request->price,
+            'describe' => $request->describe,
+            'img_url' => '',
+        ];
+
+        $image = $request->file('img_url');
+        //画像が送信されてきていたら保存処理
+        if($image){
+            $image_pass = Storage::disk('public')->put('item_img', $image, 'public'); //画像の保存処理
+            $item['img_url'] = $image_pass;
+        }
+
+        Item::create($item);
+
+        $item = Item::latest('id')->first();
+
+        // 新規Category_Itemテーブルレコード登録
+        // syncは配列OK
+        $item->category()->sync($request->category_id);
+
+        return redirect('/mypage?tab=sell');
+    }
 
 }
