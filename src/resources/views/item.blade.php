@@ -126,7 +126,8 @@
 
                         {{-- コメント記入者のプロフィール画像 --}}
                         <div class="profile-img">
-                            @if( $comment->user->destination->img_pass != NULL )
+                            {{-- @if( $comment->user->destination->img_pass != NULL ) --}}
+                            @if(! empty($comment->user->destination->img_pass) )
                                 <img src="{{ asset('storage/' . $comment->user->destination->img_pass) }}"
                                     alt="プロフィール画像">
                             @endif

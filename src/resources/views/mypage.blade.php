@@ -9,7 +9,8 @@
 <div class="user">
     <div class="img-set">
         <div class="profile-img">
-            @if( $user->destination['img_pass'] != NULL )
+            {{-- @if( $user->destination['img_pass'] !== NULL ) --}}
+            @if(! empty($user->destination['img_pass']) )
                 <img src="{{ asset('storage/' . $user->destination['img_pass']) }}" alt="プロフィール画像">
             @endif
         </div>

@@ -38,6 +38,8 @@ class ItemController extends Controller
             $items = Item::all();
         }
 
+        // キーワード入れる
+
         // index.blade.phpを表示して、入力情報が入った変数$itemsを渡す
         return view('index', compact('items'));
     }

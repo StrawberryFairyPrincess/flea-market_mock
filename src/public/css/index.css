@@ -48,6 +48,7 @@ span{
 }
 .item-img img{
     width: 290px;
+    border-radius: 4px;
 }
 
 .mask-sold {
@@ -63,6 +64,7 @@ span{
     justify-content: center;
     align-items: center;
     height: 100%;
+    border-radius: 4px;
 }
 .mask-sold .sold>p {
     font-size: 34px;
