@@ -16,13 +16,9 @@
     </div>
 
     <div class="verify">
-        <form action="　　　" method="　　　">
-            @csrf
-
             <div class="form__button">
                 <button class="form__button-submit" type="button" onclick="location.href='http://localhost:8025/'">承認はこちらから</button>
             </div>
-        </form>
     </div>
 
     <div class="mail">
@@ -30,7 +26,13 @@
             @csrf
 
             <div class="form__button">
-                <button type="submit">承認メールを再送する</button>
+                <button type="submit">認証メールを再送する</button>
+            </div>
+
+            <div class="form__error">
+                @if( session('message') )
+                    {{ session('message') }}
+                @endif
             </div>
         </form>
     </div>

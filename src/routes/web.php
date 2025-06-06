@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
-// use App\Http\Controllers\MailSendController;
 
 
 /*
@@ -77,8 +76,6 @@ Route::get('/item/like/{item_id}', [ItemController::class, 'like'])->name('item.
 // いいねを外す
 Route::get('/item/dislike/{item_id}', [ItemController::class, 'dislike'])->name('item.dislike');
 
-// メール送信確認
-// Route::get('/mail', [MailSendController::class, 'mail']);
 // メール確認の通知
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -94,5 +91,5 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
 
-    return back()->with('message', 'Verification link sent!');
+    return back()->with('message', '認証メールを送信しました');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');

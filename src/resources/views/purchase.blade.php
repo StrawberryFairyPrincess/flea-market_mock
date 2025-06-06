@@ -49,9 +49,15 @@
                 @csrf
             <div class="select_wrapper">
                 <select name="payment" id="select" onChange="updateDisplay()">
-                    <option value="">支払い方法を選択してください</option>
-                    <option value="convenience">コンビニ払い</option>
-                    <option value="credit">カード払い</option>
+                    <option value="">
+                        支払い方法を選択してください
+                    </option>
+                    <option value="convenience" @if('convenience' == old('payment')) selected @endif>
+                        コンビニ払い
+                    </option>
+                    <option value="credit" @if('credit' == old('payment')) selected @endif>
+                        カード払い
+                    </option>
                 </select>
             </div>
 
@@ -64,9 +70,19 @@
             </div>
 
             <div class="address">
-                〒<input type="text" name="post_code" value="{{ $user->destination->post_code }}" readonly /></br>
-                <input type="text" name="address" value="{{ $user->destination->address }}" readonly />
-                <input type="text" name="building" value="{{ $user->destination->building }}" readonly />
+                @if( session('address') )
+                    〒<input type="text" name="post_code" value="{{ session('post_code') }}" readonly /></br>
+                    <input type="text" name="address" value="{{ session('address') }}" readonly />
+                    <input type="text" name="building" value="{{ session('building') }}" readonly />
+                @elseif(! empty( $user->destination->address ) )
+                    〒<input type="text" name="post_code" value="{{ $user->destination->post_code }}" readonly /></br>
+                    <input type="text" name="address" value="{{ $user->destination->address }}" readonly />
+                    <input type="text" name="building" value="{{ $user->destination->building }}" readonly />
+                @else
+                    〒<input type="text" name="post_code" value="{{ old('post_code') }}" readonly /></br>
+                    <input type="text" name="address" value="{{ old('address') }}" readonly />
+                    <input type="text" name="building" value="{{ old('building') }}" readonly />
+                @endif
             </div>
 
         </div>

@@ -29,35 +29,41 @@
 
             <?php if ( Auth::check() ){ ?>
 
-                <div class="search">
-                    <form class="search-form" action="/search" method="GET">
-                        @csrf
-                        <input class="search-form__item-input" type="text" name="keyword" value="{{ old('keyword') }}" placeholder="なにをお探しですか？">
-                    </form>
-                </div>
+                <?php if ( \Auth::user()->hasVerifiedEmail() ){ ?>
+                    <div class="search">
+                        <form class="search-form" action="/search" method="GET">
+                            @csrf
+                            <input class="search-form__item-input" type="text" name="keyword" value="{{ old('keyword') }}" placeholder="なにをお探しですか？">
+                        </form>
+                    </div>
+                <?php } ?>
 
-                <nav>
-                    <ul class="header-nav">
-                        <li class="header-nav__item">
-                            <form class="header-nav__button" action="/logout" method="POST">
-                                @csrf
-                                <button class="logout" type="submit">ログアウト</button>
-                            </form>
-                        </li>
-                        <li class="header-nav__item">
-                            <form class="header-nav__button" action="/mypage" method="GET">
-                                @csrf
-                                <button class="mypage" type="submit">マイページ</button>
-                            </form>
-                        </li>
-                        <li class="header-nav__item">
-                            <form class="header-nav__button" action="/sell" method="GET">
-                                @csrf
-                                <button class="sell" type="submit">出品</button>
-                            </form>
-                        </li>
-                    </ul>
-                </nav>
+                    <nav>
+                        <ul class="header-nav">
+                            <li class="header-nav__item">
+                                <form class="header-nav__button" action="/logout" method="POST">
+                                    @csrf
+                                    <button class="logout" type="submit">ログアウト</button>
+                                </form>
+                            </li>
+
+                            <?php if ( \Auth::user()->hasVerifiedEmail() ){ ?>
+                                <li class="header-nav__item">
+                                    <form class="header-nav__button" action="/mypage" method="GET">
+                                        @csrf
+                                        <button class="mypage" type="submit">マイページ</button>
+                                    </form>
+                                </li>
+                                <li class="header-nav__item">
+                                    <form class="header-nav__button" action="/sell" method="GET">
+                                        @csrf
+                                        <button class="sell" type="submit">出品</button>
+                                    </form>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </nav>
+
             <?php } ?>
 
         </div>

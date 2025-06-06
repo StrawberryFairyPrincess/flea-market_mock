@@ -35,9 +35,7 @@ class UserController extends Controller
         // mypage?tab=sellか/mypageのとき
         else{
             // 販売した商品に絞る
-            if( Item::where('user_id', \Auth::user()->id)->exists() ){
                 $items = Item::where('user_id', \Auth::user()->id)->get();
-            }
         }
 
         return view('mypage', compact('user', 'items'));
@@ -128,7 +126,19 @@ class UserController extends Controller
     public function address(Request $request)
     {
         // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
-        $destination = Destination::where('id', \Auth::user()->id)->first();
+        if( Destination::where('id', \Auth::user()->id)->exists() ){
+            $destination = Destination::where('id', \Auth::user()->id)->first();
+        }
+        // プロフィールを登録してなかったら空欄を表示
+        else{
+            $destination = [
+                'user_id' => \Auth::user()->id,
+                'post_code' => null,
+                'address' => null,
+                'building' => null,
+                'img_pass' => null
+            ];
+        }
 
         $item_id = $request->item_id;
 
@@ -146,27 +156,12 @@ class UserController extends Controller
             'building'
         ]);
 
-        // Destinationsテーブルに自分のidのレコードがあったら更新
-        if( Destination::where('id', \Auth::user()->id)->exists() ){
-            // レコードを検索
-            $destination = Destination::where('id', \Auth::user()->id)->first();
-        }
-        // Destinationsテーブルに自分のidのレコードがなかったら作成（プロフィールを登録してなかった場合）
-        else{
-            // レコードを作成
-            $destination = new Destination;
-            $destination['id'] = \Auth::user()->id;
-            $destination['user_id'] = \Auth::user()->id;
-        }
-
-        // フォームのデータを代入
-        $destination['post_code'] = $form['post_code'];
-        $destination['address'] = $form['address'];
-        $destination['building'] = $form['building'];
-
-        $destination->save();
-
-        return redirect('/purchase/' . $request->item_id);
+        return redirect('/purchase/' . $request->item_id)
+            ->with([ //セッションで値を渡す
+                'post_code' => $form['post_code'],
+                'address' => $form['address'],
+                'building' => $form['building']
+            ]);
     }
 
     // 商品の購入(商品購入画面から)
@@ -177,7 +172,11 @@ class UserController extends Controller
         {
             $purchase = [
                 'user_id' => \Auth::user()->id,
-                'item_id' => $request->item_id
+                'item_id' => $request->item_id,
+                'post_code' => $request->post_code,
+                'address' => $request->address,
+                'building' => $request->building,
+                'payment' => $request->payment
             ];
             Purchase::create($purchase);
         }

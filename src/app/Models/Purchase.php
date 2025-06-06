@@ -16,7 +16,11 @@ class Purchase extends Model
     // Purchasesテーブルのカラムのうち操作可能にするもの
     protected $fillable = [
         'user_id',
-        'item_id'
+        'item_id',
+        'post_code',
+        'address',
+        'building',
+        'payment'
     ];
 
     // usersテーブルとのリレーション定義
