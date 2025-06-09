@@ -31,9 +31,9 @@
 
                 <?php if ( \Auth::user()->hasVerifiedEmail() ){ ?>
                     <div class="search">
-                        <form class="search-form" action="/search" method="GET">
+                        <form class="search-form" action="/" method="GET">
                             @csrf
-                            <input class="search-form__item-input" type="text" name="keyword" value="{{ old('keyword') }}" placeholder="なにをお探しですか？">
+                            <input class="search-form__item-input" type="text" name="keyword" value="{{ $keyword }}" placeholder="なにをお探しですか？">
                         </form>
                     </div>
                 <?php } ?>

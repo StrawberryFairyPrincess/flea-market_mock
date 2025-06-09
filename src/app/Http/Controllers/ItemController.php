@@ -22,26 +22,59 @@ use App\Models\Comment;
 
 class ItemController extends Controller
 {
-
-    // 商品一覧画面表示
+    // 商品一覧画面表示、検索機能
     public function index(Request $request)
     {
         // /?tab=mylistだったらlikeで絞り込み
         if($request->tab == 'mylist'){
-            // いいねで絞り込み
-            $user = \Auth::user();
-            $items = $user->likeItems;
+
+            // キーワードが入力されていたとき
+            if( !empty( $request->keyword ) && ( $request->keyword != NULL ) ){
+
+                // 部分一致検索
+                $items = Item::where('name', 'like', '%' . $request->keyword . '%')
+                    ->get();
+
+                // イイネしたものだけ抽出
+                // 参照方法: $items[0]->likes[0]->user->id
+                $array = [];
+                foreach( $items as $item ){
+                    foreach( $item->likes as $like ){
+                        if( $like->user->id == \Auth::user()->id ){
+                            $array[] = $item;
+                        }
+                    }
+                }
+
+                $items = $array;
+                $keyword = $request->keyword;
+            }
+            // キーワードがないとき
+            else{
+                // イイネした商品だけにする
+                $items = \Auth::user()->likeItems;
+                $keyword = NULL;
+            }
         }
-        // /だったら全件取得
+        // /だったとき
         else{
-            // Itemsテーブルを全部取得
-            $items = Item::all();
+            // キーワードが入力されていたとき
+            if( !empty( $request->keyword ) && ( $request->keyword != NULL ) ){
+                // 部分一致検索
+                $items = Item::where('name', 'like', '%' . $request->keyword . '%')
+                    ->get();
+                $keyword = $request->keyword;
+            }
+            // キーワードがないとき
+            else{
+                // Itemsテーブルを全件取得
+                $items = Item::all();
+                $keyword = NULL;
+            }
         }
 
-        // キーワード入れる
-
-        // index.blade.phpを表示して、入力情報が入った変数$itemsを渡す
-        return view('index', compact('items'));
+        // index.blade.phpを表示して、入力情報が入った変数$items、$keywordを渡す
+        return view('index', compact('items', 'keyword'));
     }
 
     // 商品詳細画面表示
@@ -53,29 +86,6 @@ class ItemController extends Controller
         $sold = Purchase::where('item_id', $request->item_id)->exists();
 
         return view('item', compact('item', 'categories', 'condition', 'sold'));
-    }
-
-    // 商品購入画面表示
-    public function purchase(Request $request)
-    {
-        $item = Item::find($request->item_id);
-        $user = \Auth::user();
-        $sold = Purchase::where('item_id', $request->item_id)->exists();//true or false
-
-        return view('purchase', compact('item', 'user', 'sold'));
-    }
-
-    // 検索機能
-    public function search(Request $request)
-    {
-        // キーワード
-        if(!empty($request->keyword)) {
-            $items = Item::KeywordSearch($request->keyword)
-                // ->CategorySearch($request->keyword)
-                ->get();
-        }
-
-        return view('index', compact('items'));
     }
 
     // いいね機能
@@ -118,6 +128,16 @@ class ItemController extends Controller
         Comment::create($comment);
 
         return redirect()->back();
+    }
+
+    // 商品購入画面表示
+    public function purchase(Request $request)
+    {
+        $item = Item::find($request->item_id);
+        $user = \Auth::user();
+        $sold = Purchase::where('item_id', $request->item_id)->exists();//true or false
+
+        return view('purchase', compact('item', 'user', 'sold'));
     }
 
     // 商品を出品(商品出品画面から)

@@ -71,16 +71,16 @@ class Item extends Model
         return $this->hasOne(Purchase::class, 'item_id');
     }
 
-    // キーワード検索
-    public function scopeKeywordSearch($query, $keyword)
-    {
-        if (!empty($keyword)) {
-            // 部分一致
-            $query->where('name', 'like', '%' . $keyword . '%');
-                // ->orWhere('brand', 'like', '%' . $keyword . '%')
-                // ->orWhere('describe', 'like', '%' . $keyword . '%');
-        }
-    }
+    // // キーワード検索
+    // public function scopeKeywordSearch($query, $keyword)
+    // {
+    //     if (!empty($keyword)) {
+    //         // 部分一致
+    //         $query->where('name', 'like', '%' . $keyword . '%');
+    //             // ->orWhere('brand', 'like', '%' . $keyword . '%')
+    //             // ->orWhere('describe', 'like', '%' . $keyword . '%');
+    //     }
+    // }
 
     /**
      * 商品にLIKEが付いているかの判定

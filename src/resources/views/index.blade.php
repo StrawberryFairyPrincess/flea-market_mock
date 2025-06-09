@@ -11,11 +11,11 @@
     @if(Auth::check())
         <?php $path = $_SERVER['REQUEST_URI']; ?>
         @if( strpos($path, '/?tab=mylist') !== false )
-            <a href="./"><span>おすすめ</span></a>
-            <a href="./?tab=mylist"><span class="checked">マイリスト</span></a>
+            <a href="{{ './?keyword=' . $keyword }}"><span>おすすめ</span></a>
+            <a href="{{ './?tab=mylist&keyword=' .$keyword }}"><span class="checked">マイリスト</span></a>
         @elseif( strpos($path, '/') !== false )
-            <a href="./"><span class="checked">おすすめ</span></a>
-            <a href="./?tab=mylist"><span>マイリスト</span></a>
+            <a href="{{ './?keyword=' . $keyword }}"><span class="checked">おすすめ</span></a>
+            <a href="{{ './?tab=mylist&keyword=' .$keyword }}"><span>マイリスト</span></a>
         @endif
     {{-- 未ログイン時表示 --}}
     @else

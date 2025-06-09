@@ -68,9 +68,6 @@ Route::get('/', [ItemController::class, 'index']);
 // 商品詳細画面の表示
 Route::get('/item/{item_id}', [ItemController::class, 'item']);
 
-// 検索機能(ヘッダー)
-Route::get('/search', [ItemController::class, 'search']);
-
 // いいね機能(商品詳細画面)
 Route::get('/item/like/{item_id}', [ItemController::class, 'like'])->name('item.like');
 // いいねを外す

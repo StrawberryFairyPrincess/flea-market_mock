@@ -21,7 +21,6 @@ use App\Models\Comment;
 
 class UserController extends Controller
 {
-
     // マイページ(プロフィール画面)の表示(ヘッダーのリンクから)
     public function mypage(Request $request)
     {
@@ -56,15 +55,13 @@ class UserController extends Controller
         // ログイン中のユーザー情報を取得
         $user = \Auth::user();
 
-        // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
+        // ログイン中ユーザのプロフィール情報（住所、画像）を取得
         if( Destination::where('id', \Auth::user()->id)->exists() ){
             $destination = Destination::where('id', \Auth::user()->id)->first();
         }
         // 初回ログイン時はレコードがないためとりあえずNULLを入れて空欄を表示
         else{
             $destination = [
-                // 'id' => \Auth::user()->id,
-                // 'user_id' => \Auth::user()->id,
                 'post_code' => null,
                 'address' => null,
                 'building' => null,
@@ -122,21 +119,19 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    // 住所変更画面の表示(商品購入画面から)
+    // 送付先住所変更画面の表示(商品購入画面から)
     public function address(Request $request)
     {
-        // ログイン中のユーザーのプロフィール情報（住所、画像）を取得
+        // ログイン中ユーザのプロフィール情報を取得
         if( Destination::where('id', \Auth::user()->id)->exists() ){
             $destination = Destination::where('id', \Auth::user()->id)->first();
         }
         // プロフィールを登録してなかったら空欄を表示
         else{
             $destination = [
-                'user_id' => \Auth::user()->id,
                 'post_code' => null,
                 'address' => null,
                 'building' => null,
-                'img_pass' => null
             ];
         }
 
@@ -145,7 +140,7 @@ class UserController extends Controller
         return view('/address', compact('destination', 'item_id'));
     }
 
-    // 住所変更・更新(送付先住所変更画面から)
+    // 変更した送付先を商品購入画面に渡す(送付先住所変更画面から)、プロフィールの変更はしない
     public function destination(DestinationRequest $request)
     {
         // 値を取得したいキー
