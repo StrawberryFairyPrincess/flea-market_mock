@@ -29,7 +29,7 @@
                 <button type="submit">認証メールを再送する</button>
             </div>
 
-            <div class="form__error">
+            <div class="form__message">
                 @if( session('message') )
                     {{ session('message') }}
                 @endif

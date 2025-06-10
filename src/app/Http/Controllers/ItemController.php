@@ -172,4 +172,38 @@ class ItemController extends Controller
         return redirect('/mypage?tab=sell');
     }
 
+    // Stripe決済実行とデータベースに追加
+    public function payment(Request $request)
+    {
+        // 購入履歴がない商品のみデータベースに追加
+        if(! Purchase::where('item_id', $request->item_id)->exists() )
+        {
+            $purchase = [
+                'user_id' => \Auth::user()->id,
+                'item_id' => $request->item_id,
+                'post_code' => $request->post_code,
+                'address' => $request->address,
+                'building' => $request->building,
+                'payment' => 'credit'
+            ];
+            Purchase::create($purchase);
+        }
+
+        // シークレットキーの設定
+        \Stripe\Stripe::setApiKey(config('stripe.stripe_secret_key'));
+
+        try {
+            // 決済実行
+            \Stripe\Charge::create([
+                'source' => $request->stripeToken, // クレジットカードのトークン
+                'amount' => $request->price, // 金額
+                'currency' => 'jpy',
+            ]);
+        }
+        catch (Exception $e) {
+            return redirect('/mypage?tab=buy');
+        }
+        return redirect('/mypage?tab=buy')->with('status', '決済が完了しました！');
+        // return redirect('/thanks');
+    }
 }

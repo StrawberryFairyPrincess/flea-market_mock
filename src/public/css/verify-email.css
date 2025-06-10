@@ -43,7 +43,7 @@
     font-weight: 400;
 }
 
-.form__error {
+.form__message {
     height: 20px;
     color: #FF5555;
     text-align: left;

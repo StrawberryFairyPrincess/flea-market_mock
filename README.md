@@ -44,6 +44,7 @@ Laravel環境構築
 	・MySQL 8.0.26
 	・nginx 1.21.1
 	・Fortify 1.9
+	・Stripe 17.3
 
 
 ## ER図

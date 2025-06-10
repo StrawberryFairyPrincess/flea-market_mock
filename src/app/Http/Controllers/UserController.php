@@ -162,9 +162,9 @@ class UserController extends Controller
     // 商品の購入(商品購入画面から)
     public function purchase(PurchaseRequest $request)
     {
-        // 購入履歴がない商品のみデータベースに追加
-        if(! Purchase::where('item_id', $request->item_id)->exists() )
-        {
+        // 購入履歴がない商品（在庫あり）
+        if( !Purchase::where('item_id', $request->item_id)->exists() ){
+
             $purchase = [
                 'user_id' => \Auth::user()->id,
                 'item_id' => $request->item_id,
@@ -173,9 +173,28 @@ class UserController extends Controller
                 'building' => $request->building,
                 'payment' => $request->payment
             ];
-            Purchase::create($purchase);
-        }
 
-        return redirect('/mypage?tab=buy');
+            // カード支払いのとき
+            if( $request->payment == 'credit' ){
+
+                $item = Item::where('id', $purchase['item_id'])->first();
+                $price = $item->price;
+
+                // Stripe決済画面の表示
+                return view('payment', compact( 'price', 'purchase' ));
+            }
+            // コンビニ払いのとき
+            else if( $request->payment == 'convenience' ){
+                // データベースに追加
+                Purchase::create($purchase);
+
+                return redirect('/mypage?tab=buy');
+                // return redirect('/thanks');
+            }
+        }
+        // 売り切れのとき（バリデーション通ってるからないはずだけど一応）
+        else{
+            return redirect('/mypage?tab=buy');
+        }
     }
 }

@@ -60,6 +60,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // コメント機能(商品詳細画面)
     Route::post('/comment/{item_id}', [ItemController::class, 'comment']);
 
+    // Stripeの決済
+    Route::post('/payment/{item_id}', [ItemController::class, 'payment']);
+
 });
 
 // 商品一覧画面(トップ画面)の表示
