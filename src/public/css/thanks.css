@@ -1,0 +1,11 @@
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.box{
+    font-size: 45px;
+    font-weight: 600;
+    margin-top: -80px;
+}

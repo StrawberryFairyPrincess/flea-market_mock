@@ -188,8 +188,7 @@ class UserController extends Controller
                 // データベースに追加
                 Purchase::create($purchase);
 
-                return redirect('/mypage?tab=buy');
-                // return redirect('/thanks');
+                return view('/thanks');
             }
         }
         // 売り切れのとき（バリデーション通ってるからないはずだけど一応）

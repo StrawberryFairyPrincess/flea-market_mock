@@ -42,25 +42,40 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     });
 
-    // 商品出品画面の表示（ヘッダーのリンク）
-    Route::get('/sell', [UserController::class, 'sell']);
-    // 商品の出品
-    Route::post('/sell', [ItemController::class, 'sell']);
+    Route::prefix('/sell')->group(function () {
 
-    // 商品購入画面の表示
-    Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);
-    // 商品の購入
-    Route::post('/purchase/{item_id}', [UserController::class, 'purchase']);
+        // 商品出品画面の表示（ヘッダーのリンク）
+        Route::get('', [UserController::class, 'sell']);
 
-    // 送付先住所変更画面の表示
-    Route::get('/purchase/address/{item_id}', [UserController::class, 'address']);
-    // 送付先住所を更新
-    Route::post('/purchase/address/{item_id}', [UserController::class, 'destination']);
+        // 商品の出品
+        Route::post('', [ItemController::class, 'sell']);
+
+    });
+
+    Route::prefix('/purchase/{item_id}')->group(function () {
+
+        // 商品購入画面の表示
+        Route::get('', [ItemController::class, 'purchase']);
+
+        // 商品の購入
+        Route::post('', [UserController::class, 'purchase']);
+
+    });
+
+    Route::prefix('/purchase/address/{item_id}')->group(function () {
+
+        // 送付先住所変更画面の表示
+        Route::get('', [UserController::class, 'address']);
+
+        // 送付先住所を更新
+        Route::post('', [UserController::class, 'destination']);
+
+    });
 
     // コメント機能(商品詳細画面)
     Route::post('/comment/{item_id}', [ItemController::class, 'comment']);
 
-    // Stripeの決済
+    // Stripeのクレジットカード決済
     Route::post('/payment/{item_id}', [ItemController::class, 'payment']);
 
 });
@@ -68,28 +83,43 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // 商品一覧画面(トップ画面)の表示
 Route::get('/', [ItemController::class, 'index']);
 
-// 商品詳細画面の表示
-Route::get('/item/{item_id}', [ItemController::class, 'item']);
+Route::prefix('/item')->group(function () {
 
-// いいね機能(商品詳細画面)
-Route::get('/item/like/{item_id}', [ItemController::class, 'like'])->name('item.like');
-// いいねを外す
-Route::get('/item/dislike/{item_id}', [ItemController::class, 'dislike'])->name('item.dislike');
+    // 商品詳細画面の表示
+    Route::get('/{item_id}', [ItemController::class, 'item']);
 
-// メール確認の通知
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-// メール確認のハンドラ
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
+    // いいね機能(商品詳細画面)
+    Route::get('/like/{item_id}', [ItemController::class, 'like'])->name('item.like');
+    // いいねを外す
+    Route::get('/dislike/{item_id}', [ItemController::class, 'dislike'])->name('item.dislike');
 
-    // メールアドレス検証後のリダイレクト先
-    return redirect('/mypage/profile');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-// メール確認の再送信
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
+});
 
-    return back()->with('message', '認証メールを送信しました');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+// メール認証
+Route::prefix('/email')->group(function () {
+
+    Route::prefix('/verify')->group(function () {
+
+        // メール確認の通知
+        Route::get('', function () {
+            return view('auth.verify-email');
+        })->middleware('auth')->name('verification.notice');
+
+        // メール確認のハンドラ
+        Route::get('/{id}/{hash}', function (EmailVerificationRequest $request) {
+            $request->fulfill();
+
+            // メールアドレス検証後のリダイレクト先
+            return redirect('/mypage/profile');
+        })->middleware(['auth', 'signed'])->name('verification.verify');
+
+    });
+
+    // メール確認の再送信
+    Route::post('/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('message', '認証メールを送信しました');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+});

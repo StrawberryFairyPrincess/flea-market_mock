@@ -200,10 +200,10 @@ class ItemController extends Controller
                 'currency' => 'jpy',
             ]);
         }
+        // 決済に失敗したとき
         catch (Exception $e) {
             return redirect('/mypage?tab=buy');
         }
-        return redirect('/mypage?tab=buy')->with('status', '決済が完了しました！');
-        // return redirect('/thanks');
+        return view('/thanks');
     }
 }
