@@ -17,7 +17,8 @@ class Condition extends Model
     ];
 
     // Itemsテーブルとのリレーション定義
-    public function items() {
+    public function items()
+    {
         return $this->hasMany(Item::class);
     }
 

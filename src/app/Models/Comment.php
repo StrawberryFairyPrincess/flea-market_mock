@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Item;
 
-
 class Comment extends Model
 {
     use HasFactory;

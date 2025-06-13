@@ -57,3 +57,7 @@ Laravel環境構築
     ・開発環境：http://localhost/
     ・phpMyAdmin：http://localhost:8080/
 
+
+## phpUnit
+
+	・会員登録画面はメール認証を行っており、認証後はFigmaで指定のプロフィール画面に遷移
