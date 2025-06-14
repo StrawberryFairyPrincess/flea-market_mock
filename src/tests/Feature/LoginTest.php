@@ -109,12 +109,12 @@ class LoginTest extends TestCase
         // ログアウト処理
         $response = $this->post('/logout');
 
+        // ユーザが現時点でログインしていないか
+        $this->assertFalse(Auth::check());
+
         // ログイン画面へのアクセス
         $response = $this->get('/login');
         $response->assertStatus(200);
-
-        // ユーザが現時点でログインしていないか
-        $this->assertFalse(Auth::check());
 
         // 入力項目（登録情報）
         $requestParams = [

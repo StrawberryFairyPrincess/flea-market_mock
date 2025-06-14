@@ -61,3 +61,25 @@ Laravel環境構築
 ## phpUnit
 
 	・会員登録画面はメール認証を行っており、認証後はFigmaで指定のプロフィール画面に遷移
+
+	1. .envファイルをコピーして.env.testingを作成
+	2. .env.testingの以下の環境変数を変更
+		``` text
+		APP_ENV=test
+		APP_KEY=
+		DB_DATABASE=demo_test
+		DB_USERNAME=root
+		DB_PASSWORD=root
+		```
+	3. アプリケーションキーの作成
+		``` bash
+		php artisan key:generate --env=testing
+		```
+	4. キャッシュ削除
+		``` bash
+		php artisan config:clear
+		```
+	5. テスト用テーブル作成
+		``` bash
+		php artisan migrate --env=testing
+		```
