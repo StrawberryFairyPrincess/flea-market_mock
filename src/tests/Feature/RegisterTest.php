@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 use Mail;
 use App\Models\User;
@@ -18,7 +19,7 @@ class RegisterTest extends TestCase
     // 名前のバリデーション
     public function test_fail_name()
     {
-        // 会員登録画面へのアクセスできるか
+        // 会員登録画面へのアクセス
         $response = $this->get('/register');
         $response->assertStatus(200);
 
@@ -43,7 +44,7 @@ class RegisterTest extends TestCase
     // メールアドレスのバリデーション
     public function test_fail_email()
     {
-        // 会員登録画面へのアクセスできるか
+        // 会員登録画面へのアクセス
         $response = $this->get('/register');
         $response->assertStatus(200);
 
@@ -66,9 +67,9 @@ class RegisterTest extends TestCase
     }
 
     // パスワードのバリデーション
-    public function test_fail_password_()
+    public function test_fail_password()
     {
-        // 会員登録画面へのアクセスできるか
+        // 会員登録画面へのアクセス
         $response = $this->get('/register');
         $response->assertStatus(200);
 
@@ -84,7 +85,7 @@ class RegisterTest extends TestCase
         $response = $this->post('/register', $requestParams);
         $response->assertStatus(302);
 
-        // メールアドレスのバリデーションがあるか
+        // パスワードのバリデーションがあるか
         $response->assertInvalid([
             'password' => 'パスワードを入力してください',
         ]);
@@ -101,7 +102,7 @@ class RegisterTest extends TestCase
         $response = $this->post('/register', $requestParams);
         $response->assertStatus(302);
 
-        // メールアドレスのバリデーションがあるか
+        // パスワードのバリデーションがあるか
         $response->assertInvalid([
             'password' => 'パスワードは8文字以上で入力してください',
         ]);
@@ -118,7 +119,7 @@ class RegisterTest extends TestCase
         $response = $this->post('/register', $requestParams);
         $response->assertStatus(302);
 
-        // メールアドレスのバリデーションがあるか
+        // パスワードのバリデーションがあるか
         $response->assertInvalid([
             'password' => 'パスワードと一致しません',
         ]);
@@ -127,7 +128,7 @@ class RegisterTest extends TestCase
     // バリデーションを通過したとき
     public function test_success()
     {
-        // 会員登録画面へのアクセスできるか
+        // 会員登録画面へのアクセス
         $response = $this->get('/register');
         $response->assertStatus(200);
 
@@ -152,24 +153,33 @@ class RegisterTest extends TestCase
             'email' => 'test@coachtech',
         ]);
 
-        // ユーザがログインしているか
+        // ユーザがログインしたか
         $this->assertTrue(Auth::check());
-
-        // プロフィール設定画面に遷移するか（認証してないので実際はメール認証ページが表示される）
-        $response->assertRedirect('mypage/profile');
 
         // メール認証用の確認メールが送られたか
         $this->assertNotNull(Mail::to($requestParams['email']));
 
-        // メール認証したことにする
+        // メールリンクのURLを生成
         $user = User::where('name', $requestParams['name'])->first();
-        $user['email_verified_at'] = now();
-        $user->save();
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->getEmailForVerification())]
+        );
 
-        // ログイン状態にする
-        $response = $this->actingAs($user);
+        // 現時点でメール認証していないことを確認
+        $this->assertFalse(Auth::user()->hasVerifiedEmail());
 
-        // ユーザがメール認証しているか
+        // メールリンクをクリック
+        $response = $this->get($verificationUrl);
+
+        // ユーザがメール認証できたか
         $this->assertTrue(Auth::user()->hasVerifiedEmail());
+
+        // ログインしているのが登録したユーザか
+        $this->assertEquals($user->id, Auth::id());
+
+        // プロフィール設定画面に遷移したか
+        $response->assertRedirect('mypage/profile');
     }
 }
