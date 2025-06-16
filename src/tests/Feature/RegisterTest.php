@@ -21,6 +21,7 @@ class RegisterTest extends TestCase
     {
         // 会員登録画面へのアクセス
         $response = $this->get('/register');
+        $response->assertViewIs('auth.register');
         $response->assertStatus(200);
 
         // 入力項目（名前未入力）
@@ -46,6 +47,7 @@ class RegisterTest extends TestCase
     {
         // 会員登録画面へのアクセス
         $response = $this->get('/register');
+        $response->assertViewIs('auth.register');
         $response->assertStatus(200);
 
         // 入力項目（メールアドレス未入力）
@@ -71,6 +73,7 @@ class RegisterTest extends TestCase
     {
         // 会員登録画面へのアクセス
         $response = $this->get('/register');
+        $response->assertViewIs('auth.register');
         $response->assertStatus(200);
 
         // 入力項目（パスワード未入力）
@@ -130,6 +133,7 @@ class RegisterTest extends TestCase
     {
         // 会員登録画面へのアクセス
         $response = $this->get('/register');
+        $response->assertViewIs('auth.register');
         $response->assertStatus(200);
 
         // 入力項目
@@ -172,6 +176,7 @@ class RegisterTest extends TestCase
 
         // メールリンクをクリック
         $response = $this->get($verificationUrl);
+        $response->assertStatus(302);
 
         // ユーザがメール認証できたか
         $this->assertTrue(Auth::user()->hasVerifiedEmail());

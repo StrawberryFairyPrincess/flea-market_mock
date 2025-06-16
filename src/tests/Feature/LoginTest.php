@@ -18,6 +18,7 @@ class LoginTest extends TestCase
     {
         // ログイン画面へのアクセス
         $response = $this->get('/login');
+        $response->assertViewIs('auth.login');
         $response->assertStatus(200);
 
         // 入力項目（メールアドレス未入力）
@@ -41,6 +42,7 @@ class LoginTest extends TestCase
     {
         // ログイン画面へのアクセス
         $response = $this->get('/login');
+        $response->assertViewIs('auth.login');
         $response->assertStatus(200);
 
         // 入力項目（パスワード未入力）
@@ -64,6 +66,7 @@ class LoginTest extends TestCase
     {
         // ログイン画面へのアクセス
         $response = $this->get('/login');
+        $response->assertViewIs('auth.login');
         $response->assertStatus(200);
 
         // 入力項目（未登録情報）
@@ -108,12 +111,14 @@ class LoginTest extends TestCase
 
         // ログアウト処理
         $response = $this->post('/logout');
+        $response->assertStatus(302);
 
         // ユーザが現時点でログインしていないか
         $this->assertFalse(Auth::check());
 
         // ログイン画面へのアクセス
         $response = $this->get('/login');
+        $response->assertViewIs('auth.login');
         $response->assertStatus(200);
 
         // 入力項目（登録情報）

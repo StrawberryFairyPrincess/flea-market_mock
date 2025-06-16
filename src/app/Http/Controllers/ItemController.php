@@ -27,32 +27,39 @@ class ItemController extends Controller
     {
         // /?tab=mylistだったらlikeで絞り込み
         if($request->tab == 'mylist'){
+            // ログインしているとき
+            if( \Auth::check() ){
+                // キーワードが入力されていたとき
+                if( !empty( $request->keyword ) && ( $request->keyword != NULL ) ){
 
-            // キーワードが入力されていたとき
-            if( !empty( $request->keyword ) && ( $request->keyword != NULL ) ){
+                    // 部分一致検索
+                    $items = Item::where('name', 'like', '%' . $request->keyword . '%')
+                        ->get();
 
-                // 部分一致検索
-                $items = Item::where('name', 'like', '%' . $request->keyword . '%')
-                    ->get();
-
-                // イイネしたものだけ抽出
-                // 参照方法: $items[0]->likes[0]->user->id
-                $array = [];
-                foreach( $items as $item ){
-                    foreach( $item->likes as $like ){
-                        if( $like->user->id == \Auth::user()->id ){
-                            $array[] = $item;
+                    // イイネしたものだけ抽出
+                    // 参照方法: $items[0]->likes[0]->user->id
+                    $array = [];
+                    foreach( $items as $item ){
+                        foreach( $item->likes as $like ){
+                            if( $like->user->id == \Auth::user()->id ){
+                                $array[] = $item;
+                            }
                         }
                     }
-                }
 
-                $items = $array;
-                $keyword = $request->keyword;
+                    $items = $array;
+                    $keyword = $request->keyword;
+                }
+                // キーワードがないとき
+                else{
+                    // イイネした商品だけにする
+                    $items = \Auth::user()->likeItems;
+                    $keyword = NULL;
+                }
             }
-            // キーワードがないとき
+            // ログインしていないときはボタンが押せないが万が一アクセスしたとき
             else{
-                // イイネした商品だけにする
-                $items = \Auth::user()->likeItems;
+                $items = Item::where('id', 0)->get();
                 $keyword = NULL;
             }
         }
