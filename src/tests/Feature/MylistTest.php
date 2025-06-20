@@ -22,7 +22,7 @@ class MylistTest extends TestCase
 
     public function test_like_all()
     {
-        // // ユーザを作る
+        // ユーザを作る
         for( $i = 1; $i <= 5; $i++ ){
             User::factory()->create(['id' => $i]);
         }

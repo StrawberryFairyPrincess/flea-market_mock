@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
 use Database\Seeders\ConditionsTableSeeder;
 use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\ItemsTableSeeder;
@@ -102,18 +101,6 @@ class IndexTest extends TestCase
         $this->seed(ItemsTableSeeder::class);
         $this->seed(CategoryItemSeeder::class);
 
-        // 商品一覧画面へのアクセス
-        $response = $this->get('/');
-        $response->assertViewIs('index');
-        $response->assertStatus(200);
-
-
-// 商品一覧画面を文字列として取得
-// $items = Item::all();
-// $keyword = NULL;
-// $contents = (string) $this->view('index', compact('items', 'keyword'));
-// dd($contents);
-
         // ログインしてない
         $this->assertFalse(Auth::check());
 
@@ -127,43 +114,22 @@ class IndexTest extends TestCase
         // ユーザがメール認証しているか
         $this->assertTrue(Auth::user()->hasVerifiedEmail());
 
-// dd(Auth::id()); //id=1
-
-
-
-
-// $response = $this->post('/logout');
-
         // 商品一覧画面へのアクセス
-        // $response = $this->get('/');
-        // $response->assertViewIs('index');
-        // $response->assertStatus(200);
-
-
-
-
-
+        $response = $this->get('/');
+        $response->assertViewIs('index');
+        $response->assertStatus(200);
 
         // 出品した商品が表示されていないか
         $items = Item::all();
         foreach( $items as $item ){
-            if( $item['user_id'] == \Auth::user()->id ){
-                // $response->assertDontSee( $item['name'] );
-                echo $item['name'];
+            // 出品した商品
+            if( $item['user_id'] == Auth::user()->id ){
+                $response->assertDontSee( $item['name'] );
             }
-            // else{
-            //     $response->assertSee( $item['name'] );
-            // }
-
+            // 他の人の商品
+            else{
+                $response->assertSee( $item['name'] );
+            }
         }
-// $item['user_id'] != \Auth::user()->id
-
-
-
-
-
-
-
-
     }
 }

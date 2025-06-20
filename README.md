@@ -62,8 +62,25 @@ Laravel環境構築
 
 	・会員登録画面はメール認証を行っており、認証後はFigmaで指定のプロフィール画面に遷移
 
-	1. .envファイルをコピーして.env.testingを作成
-	2. .env.testingの以下の環境変数を変更
+	1. MySQLにログイン
+		``` bash
+		docker exec -it (MySQLのコンテナID) bash
+		```
+	2. demo_testデータベースを作る
+		MySQLコンテナからMySQLにrootユーザでログイン
+			``` bash
+			mysql -u root -p
+			```
+		docker-compose.ymlのMYSQL_ROOT_PASSWORD: rootを入力
+			``` bash
+			root
+			```
+		demo_testデータベースを作る
+			``` bash
+			CREATE DATABASE demo_test;
+			```
+	3. .envファイルをコピーして.env.testingを作成
+	4. .env.testingの以下の環境変数を変更
 		``` text
 		APP_ENV=test
 		APP_KEY=
@@ -71,15 +88,15 @@ Laravel環境構築
 		DB_USERNAME=root
 		DB_PASSWORD=root
 		```
-	3. アプリケーションキーの作成
+	5. アプリケーションキーの作成
 		``` bash
 		php artisan key:generate --env=testing
 		```
-	4. キャッシュ削除
+	6. キャッシュ削除
 		``` bash
 		php artisan config:clear
 		```
-	5. テスト用テーブル作成
+	7. テスト用テーブル作成
 		``` bash
 		php artisan migrate --env=testing
 		```

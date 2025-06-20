@@ -7,7 +7,11 @@
 @section('content')
 
 <div class="tab">
-    <?php $path = $_SERVER['REQUEST_URI']; ?>
+    {{-- <?php $path = $_SERVER['REQUEST_URI']; ?> --}}
+    @php
+        $path = request()->getRequestUri();
+    @endphp
+
     {{-- ログイン時表示 --}}
     @if(Auth::check())
         @if( strpos($path, '/?tab=mylist') !== false )

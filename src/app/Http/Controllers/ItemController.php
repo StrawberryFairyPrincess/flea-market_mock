@@ -60,6 +60,16 @@ class ItemController extends Controller
             // ログインしていないときはボタンが押せないが万が一アクセスしたとき
             else{
                 $items = Item::where('id', 0)->get();
+                // $items[0] = [
+                //     'id' => 0,
+                //     'user_id' => 0,
+                //     'condition_id' => 0,
+                //     'name' => NULL,
+                //     'brand' => NULL,
+                //     'price' => NULL,
+                //     'describe' => NULL,
+                //     'img_url' => NULL,
+                // ];
                 $keyword = NULL;
             }
         }

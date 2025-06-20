@@ -34,7 +34,11 @@
                         <form class="search-form" action="/" method="GET">
                             @csrf
 
-                            <?php $path = $_SERVER['REQUEST_URI']; ?>
+                            {{-- <?php $path = $_SERVER['REQUEST_URI']; ?> --}}
+                            @php
+                                $path = request()->getRequestUri();
+                            @endphp
+
                             @if( (strpos($path, '/?tab=mylist' ) !== false) ||
                                 (strpos($path, '/?keyword=' ) !== false) )
                                 <input class="search-form__item-input" type="text" name="keyword" value="{{ $keyword }}" placeholder="なにをお探しですか？">
