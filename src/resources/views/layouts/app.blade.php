@@ -27,9 +27,9 @@
                 </a>
             </div>
 
-            <?php if ( Auth::check() ){ ?>
+            @if( Auth::check() )
 
-                <?php if ( \Auth::user()->hasVerifiedEmail() ){ ?>
+                @if ( Auth::user()->hasVerifiedEmail() )
                     <div class="search">
                         <form class="search-form" action="/" method="GET">
                             @csrf
@@ -47,7 +47,7 @@
                             @endif
                         </form>
                     </div>
-                <?php } ?>
+                @endif
 
                     <nav>
                         <ul class="header-nav">
@@ -58,7 +58,7 @@
                                 </form>
                             </li>
 
-                            <?php if ( \Auth::user()->hasVerifiedEmail() ){ ?>
+                            @if ( Auth::user()->hasVerifiedEmail() )
                                 <li class="header-nav__item">
                                     <form class="header-nav__button" action="/mypage" method="GET">
                                         @csrf
@@ -71,11 +71,11 @@
                                         <button class="sell" type="submit">出品</button>
                                     </form>
                                 </li>
-                            <?php } ?>
+                            @endif
                         </ul>
                     </nav>
 
-            <?php } ?>
+            @endif
 
         </div>
 

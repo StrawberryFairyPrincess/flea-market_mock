@@ -6,9 +6,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Database\Seeders\ConditionsTableSeeder;
-use Database\Seeders\CategoriesTableSeeder;
+// use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\ItemsTableSeeder;
-use Database\Seeders\CategoryItemSeeder;
+// use Database\Seeders\CategoryItemSeeder;
 use Tests\TestCase;
 use Faker\Factory;
 use Mail;
@@ -97,9 +97,9 @@ class IndexTest extends TestCase
 
         // 商品を設定
         $this->seed(ConditionsTableSeeder::class);
-        $this->seed(CategoriesTableSeeder::class);
+        // $this->seed(CategoriesTableSeeder::class);
         $this->seed(ItemsTableSeeder::class);
-        $this->seed(CategoryItemSeeder::class);
+        // $this->seed(CategoryItemSeeder::class);
 
         // ログインしてない
         $this->assertFalse(Auth::check());

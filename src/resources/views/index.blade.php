@@ -43,8 +43,8 @@
         @foreach( $items as $item )
 
             {{-- ログイン時は出品した商品以外を表示 --}}
-            @if(Auth::check())
-                @if( $item['user_id'] != \Auth::user()->id )
+            @if( Auth::check() )
+                @if( $item['user_id'] != Auth::user()->id )
                     <div class="item"><a href="{{ './item/' . $item['id'] }}">
 
                         {{-- 商品画像 --}}

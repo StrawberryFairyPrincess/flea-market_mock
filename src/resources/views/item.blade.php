@@ -42,7 +42,7 @@
 
             {{-- いいね数 --}}
             <div class="like">
-                <?php if(\Auth::check()){ ?>
+                @if( Auth::check() )
                     @if($item->is_liked_by_auth_user())
                         <a href="{{ route('item.dislike', ['item_id' => $item->id]) }}">
                             <img src="{{ asset('./img/icon/like.png') }}" alt="like"></br>
@@ -54,10 +54,10 @@
                             <span class="badge">{{ $item->likes->count() }}</span>
                         </a>
                     @endif
-                <?php } else { ?>
+                @else
                     <img src="{{ asset('./img/icon/dislike.png') }}" alt="dislike"></br>
                     <span class="badge">{{ $item->likes->count() }}</span>
-                <?php } ?>
+                @endif
             </div>
 
             {{-- コメント数 --}}
