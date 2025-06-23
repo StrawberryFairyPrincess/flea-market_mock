@@ -121,7 +121,7 @@
             <h2 class="ttl">コメント( {{ $item->comments->count() }} )</h2>
 
             <div class="comment-list">
-                @foreach ($item->comments as $comment)
+                @foreach( $item->comments as $comment )
                     <div class="comment-profile">
 
                         {{-- コメント記入者のプロフィール画像 --}}
