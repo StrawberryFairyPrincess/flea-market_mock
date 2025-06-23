@@ -59,7 +59,7 @@ class ItemController extends Controller
                         $keyword = NULL;
                     }
                 }
-                // メール認証していないとき
+                // メール未認証はボタンが押せないが万が一アクセスしたとき
                 else{
                     $items = Item::where('id', 0)->get();
                     $keyword = NULL;

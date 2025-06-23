@@ -236,7 +236,7 @@ class MylistTest extends TestCase
         }
     }
 
-    // ログインかつ未認証状態
+    // ログインかつメール未認証状態
     public function test_unauth()
     {
         // ユーザを作る

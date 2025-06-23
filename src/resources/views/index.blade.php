@@ -13,7 +13,7 @@
     @endphp
 
     {{-- ログイン時表示 --}}
-    @if(Auth::check())
+    @if( Auth::check() && Auth::user()->hasVerifiedEmail() )
         @if( strpos($path, '/?tab=mylist') !== false )
             <a href="{{ './?keyword=' . $keyword }}"><span>おすすめ</span></a>
             <a href="{{ './?tab=mylist&keyword=' .$keyword }}"><span class="checked">マイリスト</span></a>
@@ -43,72 +43,40 @@
         @foreach( $items as $item )
 
             {{-- ログイン時は出品した商品以外を表示 --}}
-            @if( Auth::check() )
-                @if( $item['user_id'] != Auth::user()->id )
-                    <div class="item"><a href="{{ './item/' . $item['id'] }}">
-
-                        {{-- 商品画像 --}}
-                        <div class="item-img">
-                            @if( strpos($item['img_url'],'http') === false )
-                                @if( is_null($item['img_url']) === false )
-                                    {{-- アップロード画像表示 --}}
-                                    <img src="{{ asset('storage/' . $item['img_url']) }}" alt="商品画像">
-                                @endif
-                            @else
-                                {{-- seedingファイルURL表示 --}}
-                                <img src="{{ $item['img_url'] }}" alt="商品画像">
-                            @endif
-
-                            @if( isset($item->purchase['item_id']) )
-                                <div class="mask-sold">
-                                    <div class="sold">
-                                        <p>SOLD</p>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-
-                        {{-- 商品名 --}}
-                        <div class="name">
-                            <span>{{ $item['name'] }}</span>
-                        </div>
-
-                    </a></div>
-                @endif
-
-            {{-- 未ログイン時は全件表示 --}}
-            @else
-                <div class="item"><a href="{{ './item/' . $item['id'] }}">
-
-                    {{-- 商品画像 --}}
-                    <div class="item-img">
-                        @if( strpos($item['img_url'],'http') === false )
-                            @if( is_null($item['img_url']) === false )
-                                {{-- アップロード画像表示 --}}
-                                <img src="{{ asset('storage/' . $item['img_url']) }}" alt="商品画像">
-                            @endif
-                        @else
-                            {{-- seedingファイルURL表示 --}}
-                            <img src="{{ $item['img_url'] }}" alt="商品画像">
-                        @endif
-
-                        @if( isset($item->purchase['item_id']) )
-                            <div class="mask-sold">
-                                <div class="sold">
-                                    <p>SOLD</p>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-
-                    {{-- 商品名 --}}
-                    <div class="name">
-                        <span>{{ $item['name'] }}</span>
-                    </div>
-
-                </a></div>
-
+            @if( Auth::check() && $item['user_id']==Auth::id() )
+                {{-- 以下のコードをスキップ --}}
+                @continue
             @endif
+
+            <div class="item"><a href="{{ './item/' . $item['id'] }}">
+
+                {{-- 商品画像 --}}
+                <div class="item-img">
+                    @if( strpos($item['img_url'],'http') === false )
+                        @if( is_null($item['img_url']) === false )
+                            {{-- アップロード画像表示 --}}
+                            <img src="{{ asset('storage/' . $item['img_url']) }}" alt="商品画像">
+                        @endif
+                    @else
+                        {{-- seedingファイル用URL表示 --}}
+                        <img src="{{ $item['img_url'] }}" alt="商品画像">
+                    @endif
+
+                    @if( isset($item->purchase['item_id']) )
+                        <div class="mask-sold">
+                            <div class="sold">
+                                <p>SOLD</p>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- 商品名 --}}
+                <div class="name">
+                    <span>{{ $item['name'] }}</span>
+                </div>
+
+            </a></div>
 
         @endforeach
 
