@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 use Database\Seeders\ConditionsTableSeeder;
 use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\ItemsTableSeeder;
@@ -22,7 +22,7 @@ class ItemTest extends TestCase
     // テスト後にデータベースをリセット
     use RefreshDatabase;
 
-    public function test_item()
+    public function test_item_data()
     {
         // ユーザを作る
         $users = User::factory(5)->create();

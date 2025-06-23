@@ -98,8 +98,11 @@ class SearchTest extends TestCase
         $response->assertViewIs('index');
         $response->assertStatus(200);
 
+        // キーワードを保持しているか
+        $this->assertEquals( $keyword, $response['keyword']);
+
         // マイリストに遷移
-        $response = $this->get( '/?tab=mylist&keyword=' . $keyword );
+        $response = $this->get( '/?tab=mylist&keyword=' . $response['keyword'] );
         $response->assertViewIs('index');
         $response->assertStatus(200);
 
