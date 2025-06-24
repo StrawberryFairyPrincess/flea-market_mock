@@ -10,11 +10,9 @@ use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\ItemsTableSeeder;
 use Database\Seeders\CategoryItemSeeder;
 use Tests\TestCase;
-// use Faker\Factory;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Like;
-// use App\Models\Comment;
 
 
 class LikeTest extends TestCase
@@ -22,7 +20,7 @@ class LikeTest extends TestCase
     // テスト後にデータベースをリセット
     use RefreshDatabase;
 
-    public function test_example()
+    public function test_like()
     {
         // ユーザを作る
         $users = User::factory(5)->create();
