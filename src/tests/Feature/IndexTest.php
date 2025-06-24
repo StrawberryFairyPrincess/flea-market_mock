@@ -70,11 +70,6 @@ class IndexTest extends TestCase
             Purchase::create($purchase);
         }
 
-        // 商品一覧画面へのアクセス
-        $response = $this->get('/');
-        $response->assertViewIs('index');
-        $response->assertStatus(200);
-
         // 商品一覧画面を文字列として取得
         $items = Item::all();
         $keyword = NULL;

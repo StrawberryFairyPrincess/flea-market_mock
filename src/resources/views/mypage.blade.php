@@ -22,7 +22,10 @@
 </div>
 
 <div class="tab">
-    <?php $path = $_SERVER['REQUEST_URI']; ?>
+    {{-- <?php $path = $_SERVER['REQUEST_URI']; ?> --}}
+    @php
+        $path = request()->getRequestUri();
+    @endphp
     @if( strpos($path, '/mypage?tab=buy') !== false )
         <a href="/mypage?tab=sell"><span>出品した商品</span></a>
         <a href="/mypage?tab=buy"><span class="checked">購入した商品</span></a>

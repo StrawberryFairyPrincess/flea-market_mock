@@ -16,10 +16,10 @@
     @if( Auth::check() && Auth::user()->hasVerifiedEmail() )
         @if( strpos($path, '/?tab=mylist') !== false )
             <a href="{{ './?keyword=' . $keyword }}"><span>おすすめ</span></a>
-            <a href="{{ './?tab=mylist&keyword=' .$keyword }}"><span class="checked">マイリスト</span></a>
+            <a href="{{ './?tab=mylist&keyword=' . $keyword }}"><span class="checked">マイリスト</span></a>
         @else
             <a href="{{ './?keyword=' . $keyword }}"><span class="checked">おすすめ</span></a>
-            <a href="{{ './?tab=mylist&keyword=' .$keyword }}"><span>マイリスト</span></a>
+            <a href="{{ './?tab=mylist&keyword=' . $keyword }}"><span>マイリスト</span></a>
         @endif
     {{-- 未ログイン時表示 --}}
     @else
