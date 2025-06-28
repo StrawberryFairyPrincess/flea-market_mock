@@ -11,7 +11,6 @@ use Tests\TestCase;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Item;
-// use App\Models\Purchase;
 
 
 class DestinationTest extends TestCase
@@ -73,43 +72,20 @@ class DestinationTest extends TestCase
         $response->assertValid( ['post_code', 'address'] );
 
         // 購入ページへのアクセス
-        $response = $this
-            // ->withSession([
-            //     // 'post_code' => session('post_code'),
-            //     // 'address' => session('address'),
-            //     // 'building' => session('building')
-            //     'post_code' => $destination['post_code'],
-            //     'address' => $destination['address'],
-            //     'building' => $destination['building']
-            // ])
-            ->get( '/purchase/' . $item['id'] );
+        $response = $this->get( '/purchase/' . $item['id'] );
         $response->assertViewIs('purchase');
         $response->assertStatus(200);
 
-        // $response->assertSessionHas( 'post_code', $destination['post_code'] );
-
-        // ！！！！！セッションから値がもらえない！！！！！
-
-
-        // dd(session('post_code'));
-        // dd($response['post_code']);
-
-
-
         // 登録した住所が反映されているか
-        // $response->assertSeeText( $destination['post_code'] );
-        // $response->assertSeeText( $destination['address'] );
-        // $response->assertSeeText( $destination['building'] );
-
+        $response->assertSee( $destination['post_code'] );
+        $response->assertSee( $destination['address'] );
+        $response->assertSee( $destination['building'] );
 
         // 送信項目
         $purchase = [
             'post_code' => $destination['post_code'],
             'address' => $destination['address'],
             'building' => $destination['building'],
-            // 'post_code' => session('post_code'),
-            // 'address' => session('address'),
-            // 'building' => session('building'),
             'payment' => 'convenience'
         ];
 
