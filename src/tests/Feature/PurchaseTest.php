@@ -43,7 +43,7 @@ class PurchaseTest extends TestCase
         // ユーザがメール認証できているか
         $this->assertTrue( Auth::user()->hasVerifiedEmail() );
 
-        // 個別購入ページへのアクセス
+        // 購入ページへのアクセス
         $item = Item::first();
         $response = $this->get( '/purchase/' . $item['id'] );
         $response->assertViewIs('purchase');
@@ -90,6 +90,6 @@ class PurchaseTest extends TestCase
         $response->assertStatus(200);
 
         // 購入した商品が表示されているか
-        $response -> assertSeeText( $item['name'] );
+        $response->assertSeeText( $item['name'] );
     }
 }
