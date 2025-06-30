@@ -53,8 +53,10 @@ class CommentTest extends TestCase
         // コメント送信
         $response = $this->post( '/comment/' . $item['id'], $comment );
         $response->assertRedirect( '/login' );
+        $response->assertStatus(302);
         $response = $this->get( '/item/' . $item['id'] );
         $response->assertViewIs('item');
+        $response->assertStatus(200);
 
         // コメントは登録されない
         $this->assertEquals( $item->comments->count(), 0 );
@@ -114,8 +116,10 @@ class CommentTest extends TestCase
         // コメント送信
         $response = $this->post( '/comment/' . $item['id'], $comment );
         $response->assertRedirect( '/item/' . $item['id'] );
+        $response->assertStatus(302);
         $response = $this->get( '/item/' . $item['id'] );
         $response->assertViewIs('item');
+        $response->assertStatus(200);
 
         // 送信内容が表示されているか
         $response->assertSeeText( $comment['comment'] );
@@ -159,6 +163,7 @@ class CommentTest extends TestCase
         // コメント送信
         $response = $this->post( '/comment/' . $item['id'], $comment );
         $response->assertRedirect( '/item/' . $item['id'] );
+        $response->assertStatus(302);
 
         // コメントのバリデーションエラーが発生しているか
         $response->assertInvalid([
@@ -218,6 +223,7 @@ class CommentTest extends TestCase
         // コメント送信
         $response = $this->post( '/comment/' . $item['id'], $comment );
         $response->assertRedirect( '/item/' . $item['id'] );
+        $response->assertStatus(302);
 
         // コメントのバリデーションエラーが発生しているか
         $response->assertInvalid([

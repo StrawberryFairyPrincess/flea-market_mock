@@ -5,14 +5,10 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-// use Database\Seeders\ConditionsTableSeeder;
-// use Database\Seeders\ItemsTableSeeder;
 use Tests\TestCase;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Destination;
-// use App\Models\Item;
-// use App\Models\Purchase;
 
 
 class ProfileTest extends TestCase

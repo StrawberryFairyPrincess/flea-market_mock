@@ -25,7 +25,7 @@ class MypageTest extends TestCase
         // ユーザを作る
         $users = User::factory(5)->create();
 
-        // ログインさせるユーザ(id=1の人)の画像を登録
+        // ログインさせるユーザ(id=1の人)の画像(プロフィール)を登録
         $faker = Factory::create();
         $destination = [
             'id' => 1,

@@ -56,8 +56,10 @@ class LikeTest extends TestCase
         // イイネアイコンをクリック
         $response = $this->get( route('item.like', ['item_id' => $item->id]) );
         $response->assertRedirect( '/item/' . $item['id'] );
+        $response->assertStatus(302);
         $response = $this->get( '/item/' . $item['id'] );
         $response->assertViewIs('item');
+        $response->assertStatus(200);
 
         // イイネ数は1に増加
         $this->assertEquals( $item->likes()->count(), 1 );
@@ -68,8 +70,10 @@ class LikeTest extends TestCase
         // 再度イイネアイコンクリック
         $response = $this->get( route('item.dislike', ['item_id' => $item->id]) );
         $response->assertRedirect( '/item/' . $item['id'] );
+        $response->assertStatus(302);
         $response = $this->get( '/item/' . $item['id'] );
         $response->assertViewIs('item');
+        $response->assertStatus(200);
 
         // イイネ数は0に減少
         $this->assertEquals( $item->likes()->count(), 0 );

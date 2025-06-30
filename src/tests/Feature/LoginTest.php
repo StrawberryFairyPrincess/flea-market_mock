@@ -29,6 +29,7 @@ class LoginTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/login', $requestParams);
+        $response->assertRedirect('/login');
         $response->assertStatus(302);
 
         // メールアドレスのバリデーションがあるか
@@ -53,6 +54,7 @@ class LoginTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/login', $requestParams);
+        $response->assertRedirect('/login');
         $response->assertStatus(302);
 
         // パスワードのバリデーションがあるか
@@ -77,6 +79,7 @@ class LoginTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/login', $requestParams);
+        $response->assertRedirect('/login');
         $response->assertStatus(302);
 
         // 未登録のバリデーションがあるか
@@ -97,7 +100,8 @@ class LoginTest extends TestCase
         ];
 
          // 登録項目送信
-        $response = $this->post('/register', $registered);
+        $response = $this->post( '/register', $registered );
+        $response->assertRedirect('/mypage/profile');
         $response->assertStatus(302);
 
         // バリデーションエラーなし
@@ -129,6 +133,7 @@ class LoginTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/login', $requestParams);
+        $response->assertRedirect('/?tab=mylist'); // 商品一覧画面のマイリストに遷移するか
         $response->assertStatus(302);
 
         // バリデーションエラーなし
@@ -136,8 +141,5 @@ class LoginTest extends TestCase
 
         // ユーザがログインできたか
         $this->assertTrue(Auth::check());
-
-        // 商品一覧画面のマイリストに遷移するか
-        $response->assertRedirect('/?tab=mylist');
     }
 }

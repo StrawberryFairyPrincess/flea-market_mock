@@ -34,6 +34,7 @@ class RegisterTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/register', $requestParams);
+        $response->assertRedirect('/register');
         $response->assertStatus(302);
 
         // 名前のバリデーションがあるか
@@ -60,6 +61,7 @@ class RegisterTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/register', $requestParams);
+        $response->assertRedirect('/register');
         $response->assertStatus(302);
 
         // メールアドレスのバリデーションがあるか
@@ -86,6 +88,7 @@ class RegisterTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/register', $requestParams);
+        $response->assertRedirect('/register');
         $response->assertStatus(302);
 
         // パスワードのバリデーションがあるか
@@ -103,6 +106,7 @@ class RegisterTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/register', $requestParams);
+        $response->assertRedirect('/register');
         $response->assertStatus(302);
 
         // パスワードのバリデーションがあるか
@@ -120,6 +124,7 @@ class RegisterTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/register', $requestParams);
+        $response->assertRedirect('/register');
         $response->assertStatus(302);
 
         // パスワードのバリデーションがあるか
@@ -146,6 +151,10 @@ class RegisterTest extends TestCase
 
         // 入力項目送信
         $response = $this->post('/register', $requestParams);
+        $response->assertRedirect('/mypage/profile');
+        $response->assertStatus(302);
+        $response = $this->get('/mypage/profile');
+        $response->assertRedirect('/email/verify');
         $response->assertStatus(302);
 
         // バリデーションエラーなし
@@ -176,6 +185,7 @@ class RegisterTest extends TestCase
 
         // メールリンクをクリック
         $response = $this->get($verificationUrl);
+        $response->assertRedirect('mypage/profile'); // プロフィール設定画面に遷移したか
         $response->assertStatus(302);
 
         // ユーザがメール認証できたか
@@ -183,8 +193,5 @@ class RegisterTest extends TestCase
 
         // ログインしているのが登録したユーザか
         $this->assertEquals($user->id, Auth::id());
-
-        // プロフィール設定画面に遷移したか
-        $response->assertRedirect('mypage/profile');
     }
 }

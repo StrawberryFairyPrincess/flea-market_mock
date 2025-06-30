@@ -59,6 +59,7 @@ class DestinationTest extends TestCase
         // 入力内容送信
         $response = $this->post( '/purchase/address/' . $item['id'], $destination );
         $response->assertRedirect( '/purchase/' . $item['id'] );
+        $response->assertStatus(302);
 
         // セッションに値が渡せてるか
         // $this->assertEquals( $destination['post_code'], session('post_code') );
@@ -75,7 +76,8 @@ class DestinationTest extends TestCase
         $response = $this->get( '/purchase/' . $item['id'] );
         $response->assertViewIs('purchase');
         $response->assertStatus(200);
-
+// dd($response['post_code']); // Undefined index: post_code
+// dd(session('post_code')); //null
         // 登録した住所が反映されているか
         $response->assertSee( $destination['post_code'] );
         $response->assertSee( $destination['address'] );
