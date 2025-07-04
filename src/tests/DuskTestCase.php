@@ -6,7 +6,6 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
-// use Illuminate\Support\Facades\DB;
 
 
 abstract class DuskTestCase extends BaseTestCase
@@ -22,7 +21,7 @@ abstract class DuskTestCase extends BaseTestCase
     public static function prepare()
     {
         if (! static::runningInSail()) {
-            // static::startChromeDriver();
+            static::startChromeDriver();
 
             // // インストール済みのChromeバージョンに合わせて自動的にDriverをダウンロード
             // static::startChromeDriver(['--port=9515']);
