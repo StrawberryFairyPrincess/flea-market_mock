@@ -40,7 +40,6 @@ Laravel環境構築
 PHPUnit環境構築
 
 	・1会員登録機能の会員登録画面はメール認証を行っており、認証後はFigmaで指定のプロフィール画面に遷移
-	・11支払い方法選択機能についてはJavaScriptを使用したためDUSKでテストを実施
 
 	1. MySQLにログイン
 		``` bash
@@ -86,73 +85,6 @@ PHPUnit環境構築
 	8. テスト用テーブル作成
 		``` bash
 		php artisan migrate --env=testing
-		```
-
-
-DUSKインストール
-
-	1.  PHPコンテナにログイン
-		```bash
-		docker-compose exec php bash
-		```
-	2. Duskパッケージをインストール
-		```bash
-		composer require --dev laravel/dusk
-		```
-	3. Duskをインストール
-		```bash
-		php artisan dusk:install
-		```
-	4. OSに合う最新バージョンのChrome Driverをインストール
-		```bash
-		php artisan dusk:chrome-driver
-		```
-	5. .envに追記
-		```bash
-		DUSK_DRIVER_URL="http://localhost:9515"
-		```
-	6. config/database.phpにテスト用DBの指定
-		```bash
-		'connections' => [
-			'sqlite_testing' => [
-				'driver' => 'sqlite',
-				'database' => ':memory:',
-				'prefix' => '',
-			],
-		],
-		```
-	7. tests/DuskTextCase.phpを編集
-		テスト用データベースの設定
-		```bash
-		use Illuminate\Support\Facades\DB;
-
-		public function setUp(): void
-		{
-			parent::setUp();
-			DB::connection('sqlite_testing')->reconnect();
-		}
-		```
-
-		インストール済みのChromeバージョンに合わせて自動的にDriverをダウンロード
-		```bash
-		public static function prepare(){
-			if (! static::runningInSail()) {
-				static::startChromeDriver(['--port=9515']);
-			}
-		}
-		```
-
-		カスタムオプション追加
-		```bash
-		protected function driver(){
-			$options = (new ChromeOptions)->addArguments([
-				'--disable-gpu',
-				'--headless',
-				'--window-size=1920,1080',
-				'--no-sandbox',
-				'--disable-dev-shm-usage',
-			]);
-		}
 		```
 
 

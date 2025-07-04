@@ -6,7 +6,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 
 abstract class DuskTestCase extends BaseTestCase
@@ -24,8 +24,8 @@ abstract class DuskTestCase extends BaseTestCase
         if (! static::runningInSail()) {
             // static::startChromeDriver();
 
-            // インストール済みのChromeバージョンに合わせて自動的にDriverをダウンロード
-            static::startChromeDriver(['--port=9515']);
+            // // インストール済みのChromeバージョンに合わせて自動的にDriverをダウンロード
+            // static::startChromeDriver(['--port=9515']);
         }
     }
 
@@ -36,29 +36,31 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
-        // $options = (new ChromeOptions)->addArguments(collect([
-        //     $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
-        // ])->unless($this->hasHeadlessDisabled(), function ($items) {
-        //     return $items->merge([
-        //         '--disable-gpu',
-        //         '--headless',
-        //     ]);
-        // })->all());
+        $options = (new ChromeOptions)->addArguments(collect([
+            $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
+        ])->unless($this->hasHeadlessDisabled(), function ($items) {
+            return $items->merge([
+                '--disable-gpu',
+                '--headless',
+            ]);
+        })->all());
 
-        // カスタムオプション
-        $options = (new ChromeOptions)->addArguments([
-            '--disable-gpu',
-            // '--headless',          // ヘッドレスモード
-            '--headless=new',  // Use "new" for recent Chrome
-            '--window-size=1920,1080',
-            '--no-sandbox',
-            '--disable-dev-shm-usage',
-            '--ignore-ssl-errors',
-            '--whitelisted-ips=""'
-        ]);
+        // // カスタムオプション
+        // $options = (new ChromeOptions)->addArguments([
+        //     '--disable-gpu',
+        //     // '--headless',          // ヘッドレスモード
+        //     '--headless=new',  // Use "new" for recent Chrome
+        //     '--window-size=1920,1080',
+        //     '--no-sandbox',
+        //     '--disable-dev-shm-usage',
+        //     '--ignore-ssl-errors',
+        //     '--whitelisted-ips=""'
+        // ]);
 
         return RemoteWebDriver::create(
-            $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+            // $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+            // 'http://seleniarm-hub:4444/wd/hub',
+            $_ENV['DUSK_DRIVER_URL'] ?? 'http://seleniarm-hub:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             )
@@ -87,10 +89,10 @@ abstract class DuskTestCase extends BaseTestCase
             isset($_ENV['DUSK_START_MAXIMIZED']);
     }
 
-    // テスト用データベースの設定
-    public function setUp(): void
-    {
-        parent::setUp();
-        DB::connection('sqlite_testing')->reconnect();
-    }
+    // protected function baseUrl()
+    // {
+    //     // return 'http://laravel.test:80';
+    //     return 'http://project-dev:80';
+    // }
+
 }

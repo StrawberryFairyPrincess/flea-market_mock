@@ -54,3 +54,57 @@ services:
       MH_MAILDIR_PATH: /tmp
     volumes:
       - maildir:/tmp
+
+  # seleniarm-hub:
+  #     # image: seleniarm/hub:4.1.2-20220222
+  #     image: seleniarm/hub:latest
+  #     container_name: seleniarm-hub
+  #     ports:
+  #       - "4442:4442"
+  #       - "4443:4443"
+  #       - "4444:4444"
+  #     # depends_on:
+  #     #   - app
+  #     extra_hosts:
+  #     - 'host.docker.internal:host-gateway'
+
+  # chrome:
+  #   # image: seleniarm/node-chromium:4.1.2-20220222
+  #   image: seleniarm/node-chromium:latest
+  #   volumes:
+  #     - /dev/shm:/dev/shm
+  #   depends_on:
+  #     - seleniarm-hub
+  #   environment:
+  #     - SE_EVENT_BUS_HOST=seleniarm-hub
+  #     - SE_EVENT_BUS_PUBLISH_PORT=4442
+  #     - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  #   ports:
+  #     - "6901:5900"
+
+  dev:
+    build:
+      context: "./docker/dev/"
+    image: project/dev
+    container_name: project-dev
+    volumes:
+      - "./project:/project"
+    ports:
+      - 8000:80
+
+  selenium-hub:
+      image: selenium/hub:3.141.59-vanadium
+      container_name: selenium-hub
+      ports:
+          - 4444:4444
+
+  chrome:
+    image: selenium/node-chrome:3.141.59-vanadium
+    container_name: selenium-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444

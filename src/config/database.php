@@ -113,12 +113,6 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
-        'sqlite_testing' => [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ],
     ],
 
     /*
