@@ -40,7 +40,7 @@ class IndexTest extends TestCase
         // 登録された全商品が表示されているか
         $items = Item::all();
         foreach( $items as $item ){
-            $response -> assertSee( $item['name'] );
+            $response -> assertSeeText( $item['name'] );
         }
     }
 
@@ -58,6 +58,7 @@ class IndexTest extends TestCase
 
         // 購入データを作る
         $faker = Factory::create();
+        $ids =[];
         for( $i = 0; $i < 3; $i++ ){
             $purchase = [
                 'user_id' => $faker->numberBetween(1, 5),
@@ -68,6 +69,7 @@ class IndexTest extends TestCase
                 'payment' => $faker->randomElement(['convenience', 'credit'])
             ];
             Purchase::create($purchase);
+            $ids[] = $purchase['item_id'];
         }
 
         // 商品一覧画面を文字列として取得
@@ -80,6 +82,13 @@ class IndexTest extends TestCase
 
         // SOLDの表示回数と購入済み商品数が等しいか
         $this->assertEquals( $count, Purchase::count() );
+
+        // 購入履歴のある商品が購入登録した商品か
+        foreach( $items as $item ){
+            if( isset( $item->purchase['item_id'] ) ){
+                $this->assertContains( $item['id'], $ids );
+            }
+        }
     }
 
     // 出品した商品を除外して表示
@@ -118,12 +127,12 @@ class IndexTest extends TestCase
         $items = Item::all();
         foreach( $items as $item ){
             // 出品した商品
-            if( $item['user_id'] == Auth::user()->id ){
-                $response->assertDontSee( $item['name'] );
+            if( $item['user_id'] == Auth::id() ){
+                $response->assertDontSeeText( $item['name'] );
             }
             // 他の人の商品
             else{
-                $response->assertSee( $item['name'] );
+                $response->assertSeeText( $item['name'] );
             }
         }
     }

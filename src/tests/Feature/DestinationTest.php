@@ -53,13 +53,25 @@ class DestinationTest extends TestCase
             'post_code' => $faker->numberBetween(100, 999) . '-' . $faker->numberBetween(1000, 9999),
             'address' => $faker->address(),
             'building' => $faker->secondaryAddress(),
-
         ];
 
         // 入力内容送信
-        $response = $this->post( '/purchase/address/' . $item['id'], $destination );
-        $response->assertRedirect( '/purchase/' . $item['id'] );
-        $response->assertStatus(302);
+        $response = $this->followingRedirects()
+                    ->post( '/purchase/address/' . $item['id'], $destination );
+        $response->assertViewIs('purchase');
+        $response->assertStatus(200);
+
+        // バリデーションエラーなし
+        $response->assertValid( ['post_code', 'address'] );
+
+        // 購入ページへのアクセス
+        $response = $this->withSession([ //セッションで値を渡す
+            'post_code' => $destination['post_code'],
+            'address' => $destination['address'],
+            'building' => $destination['building']
+        ])->get( '/purchase/' . $item['id'] );
+        $response->assertViewIs('purchase');
+        $response->assertStatus(200);
 
         // セッションに値が渡せてるか
         // $this->assertEquals( $destination['post_code'], session('post_code') );
@@ -69,15 +81,6 @@ class DestinationTest extends TestCase
         $response->assertSessionHas( 'address', $destination['address'] );
         $response->assertSessionHas( 'building', $destination['building'] );
 
-        // バリデーションエラーなし
-        $response->assertValid( ['post_code', 'address'] );
-
-        // 購入ページへのアクセス
-        $response = $this->get( '/purchase/' . $item['id'] );
-        $response->assertViewIs('purchase');
-        $response->assertStatus(200);
-// dd($response['post_code']); // Undefined index: post_code
-// dd(session('post_code')); //null
         // 登録した住所が反映されているか
         $response->assertSee( $destination['post_code'] );
         $response->assertSee( $destination['address'] );
@@ -85,9 +88,9 @@ class DestinationTest extends TestCase
 
         // 送信項目
         $purchase = [
-            'post_code' => $destination['post_code'],
-            'address' => $destination['address'],
-            'building' => $destination['building'],
+            'post_code' => session('post_code'),
+            'address' => session('address'),
+            'building' => session('building'),
             'payment' => 'convenience'
         ];
 

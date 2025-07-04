@@ -99,6 +99,7 @@ class MylistTest extends TestCase
 
         // 購入データを作る
         $faker = Factory::create();
+        $ids =[];
         for( $i = 0; $i < 5; $i++ ){
             $purchase = [
                 'user_id' => $faker->numberBetween(1, 6),
@@ -109,6 +110,7 @@ class MylistTest extends TestCase
                 'payment' => $faker->randomElement(['convenience', 'credit'])
             ];
             Purchase::create($purchase);
+            $ids[] = $purchase['item_id'];
         }
 
         // ログインしてない
@@ -144,29 +146,22 @@ class MylistTest extends TestCase
             }
         }
 
-        // マイリストへのアクセス
-        $response = $this->get('/?tab=mylist');
-        $response->assertViewIs('index');
-        $response->assertStatus(200);
+        // いいねした商品の中で購入履歴のある商品が購入登録した商品か
+        $items = Auth::user()->likeItems;
+        $i = 0;
+        foreach( $items as $item ){
+            if( isset( $item->purchase['item_id'] ) ){
+                $this->assertContains( $item['id'], $ids );
+                $i++; // いいねしている中で購入済みの数
+            }
+        }
 
         // マイリストを文字列として取得
-        $items = Auth::user()->likeItems;
         $keyword = NULL;
         $contents = (string) $this->view('index', compact('items', 'keyword'));
 
         // SOLDの出現回数
         $count = substr_count( $contents, 'SOLD' );
-
-        // いいねしている中で購入済みの数
-        $purchases = Purchase::all();
-        $i = 0;
-        foreach( $purchases as $purchase ){
-            foreach( $items as $item ){
-                if( $purchase['item_id'] == $item['id'] ){
-                    $i++;
-                }
-            }
-        }
 
         // SOLDの表示回数と購入済み商品数が等しいか
         $this->assertEquals( $count, $i );
@@ -227,11 +222,11 @@ class MylistTest extends TestCase
         foreach( $items as $item ){
             // 出品した商品
             if( $item['user_id'] == Auth::user()->id ){
-                $response->assertDontSee( $item['name'] );
+                $response->assertDontSeeText( $item['name'] );
             }
             // 他の人の商品
             else{
-                $response->assertSee( $item['name'] );
+                $response->assertSeeText( $item['name'] );
             }
         }
     }
