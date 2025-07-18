@@ -37,6 +37,42 @@ Laravel環境構築
 		```
 
 
+画像フォルダのシンボリックリンク作成
+
+	`php artisan storage:link`
+
+
+Mailhogの設定
+
+	.envの修正
+		``` text
+		MAIL_HOST=mailhog
+		MAIL_PORT=1025
+		MAIL_FROM_ADDRESS=info@flemarket.com
+		MAIL_FROM_NAME=フリマ模擬案件
+		```
+
+
+Strype決済インストール
+
+	1. Strype PHPライブラリインストール
+		``` bash
+		composer require stripe/stripe-php
+		```
+	2. アクセスキーを以下から
+		https://dashboard.stripe.com/test/apikeys
+	3. .envに2.で取得した公開可能キー、シークレットキーを追記
+		``` text
+		STRIPE_PUBLIC_KEY=(2.で取得した公開可能キー)
+		STRIPE_SECRET_KEY=(2.で取得したシークレットキー)
+		```
+	4. キャッシュクリア
+		``` bash
+		php artisan config:clear
+		php artisan cache:clear
+		```
+
+
 PHPUnit環境構築
 
 	・1会員登録機能の会員登録画面はメール認証を行っており、認証後はFigmaで指定のプロフィール画面に遷移
