@@ -122,10 +122,73 @@ PHPUnit環境構築
 		``` bash
 		php artisan migrate --env=testing
 		```
+	9. テスト実行コード
+		1 会員登録機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/RegisterTest.php
+			```
+		2 ログイン機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/LoginTest.php
+			```
+		3 ログアウト機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/LogoutTest.php
+			```
+		4 商品一覧取得
+			``` bash
+			vendor/bin/phpunit tests/Feature/IndexTest.php
+			```
+		5 マイリスト一覧取得
+			``` bash
+			vendor/bin/phpunit tests/Feature/MylistTest.php
+			```
+		6 商品検索機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/SearchTest.php
+			```
+		7 商品詳細情報取得
+			``` bash
+			vendor/bin/phpunit tests/Feature/ItemTest.php
+			```
+		8 いいね機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/LikeTest.php
+			```
+		9 コメント送信機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/CommentTest.php
+			```
+		10 商品購入機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/PurchaseTest.php
+			```
+		11 支払い方法選択機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/SelectTest.php
+			```
+		12 配送先変更機能
+			``` bash
+			vendor/bin/phpunit tests/Feature/DestinationTest.php
+			```
+		13 ユーザー情報取得
+			``` bash
+			vendor/bin/phpunit tests/Feature/MypageTest.php
+			```
+		14 ユーザー情報変更
+			``` bash
+			vendor/bin/phpunit tests/Feature/ProfileTest.php
+			```
+		15 出品商品情報登録
+			``` bash
+			vendor/bin/phpunit tests/Feature/SellTest.php
+			```
 
 
 ## 使用技術(実行環境)
 
+	・MacBook Retina, 2017
+	・macOS 13.7.6
 	・Laravel Framework 8.83.8
 	・PHP 7.4.9
 	・MySQL 8.0.26
