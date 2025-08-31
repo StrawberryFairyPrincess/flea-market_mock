@@ -34,7 +34,7 @@ class UserController extends Controller
         // mypage?tab=sellか/mypageのとき
         else{
             // 販売した商品に絞る
-                $items = Item::where('user_id', \Auth::user()->id)->get();
+                $items = Item::where('user_id', \Auth::id())->get();
         }
 
         return view('mypage', compact('user', 'items'));

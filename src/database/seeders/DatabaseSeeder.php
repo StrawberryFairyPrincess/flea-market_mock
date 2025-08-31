@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         // Itemsテーブルへのシーディング処理（user_idとcondition_idが存在しないとだめ）
         $this->call(ItemsTableSeeder::class);
 
-        // Category_Itemテーブルのファクトリからのシーディング（item_idとcategory_idが存在しないとだめ）
+        // Category_Itemテーブルへのシーディング（item_idとcategory_idが存在しないとだめ）
         $this->call(CategoryItemSeeder::class);
 
     }

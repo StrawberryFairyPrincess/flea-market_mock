@@ -59,7 +59,7 @@ Strype決済インストール
 		``` bash
 		composer require stripe/stripe-php
 		```
-	2. アクセスキーを以下から
+	2. アクセスキーを以下から取得
 		https://dashboard.stripe.com/test/apikeys
 	3. .envに2.で取得した公開可能キー、シークレットキーを追記
 		``` text

@@ -26,7 +26,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         // /?tab=mylistだったらlikeで絞り込み
-        if($request->tab == 'mylist'){
+        if( $request->tab == 'mylist' ){
             // ログインしているとき
             if( \Auth::check() ){
                 // メール認証済み
